@@ -30,7 +30,9 @@ ________________________________________________________________________________
 Les fonctionnalités sont : 
 
 a) Le suivi des places : Il doit pouvoir savoir, en un coup d’œil combien de places sont libres à chaque étage. 
+
 b) La gestion des entrées et sorties : Il veut pouvoir enregistrer facilement les plaques d’immatriculation quand les voitures entrent, et quand elles sortent que le système calcule automatiquement pendant combien de temps elles sont restées. 
+
 c) Le calcul et la gestion des paiements : Le système peut calculer directement le montant dû en fonction du temps de stationnement dans le parking, pouvoir gérer le paiement qu’il soit en espèces ou par carte 
 
 Optionnel : 
