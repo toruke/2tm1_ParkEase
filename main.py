@@ -1,15 +1,23 @@
 # main du projet Park Ease
 from datetime import datetime
+from multiprocessing.managers import Token
+
 
 class Ticket:
-    def __init__(self, plaque="Inconnue", arrive=datetime.now(), sortie=datetime.now(), etage=0):
+    def __init__(self, plaque="Inconnue", etage=0):
         self._plaque = plaque
-        self._arrive = arrive 
-        self._sortie = sortie
         self._etage = etage
+        self.arrive = None
+        self.sortie = None
+
+    def arrive(self):
+        self.arrive = datetime.now()
+
+    def sortie(self):
+        self.sortie = datetime.now()
 
     def calculer_duree(self):
-        return self._sortie - self._arrive
+        return self.sortie.hour - self.arrive.hour  #bug ici
 
     def calculer_montant(self):
         duree = self.calculer_duree()
@@ -27,3 +35,4 @@ class Etage:
 class Parking:
     def __init__(self,etage):
         pass
+
