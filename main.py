@@ -1,26 +1,26 @@
 # main du projet Park Ease
-class Parking:
-    def __init__(self,place=192):#peut-être pas néssesaire une class pour sa
-        self._place = place
+class Ticket:
+    def __init__(self, plaque, arrive, sortie, etage):
+        self._plaque = plaque
+        self._arrive = arrive
+        self._sortie = sortie
+        self._etage = etage
 
+    def calculer_duree(self):
+        return self._sortie - self._arrive
+
+    def calculer_montant(self):
+        duree = self.calculer_duree()
+        return duree * 2.30
+
+class Etage:
+    def __init__(self,id_etage,places=48):
+        self._id_etage = id_etage
+        self._places = places
     @property
-    def place(self):#à améliorer Suivi des places
-        return self._place
+    def nbr_places(self):
+        return self._places
 
-    def sortie(self):#la gestion des sorties
-        if self._place > 0 :
-            self._place -= 1
-        else:
-            return print("no more place in the parking")#envoie d'un message d'alert ici
-
-    def entre(self):#la gestion des entrée
-        if self._place < 192:
-            self._place += 1
-
-    def rapport(self):#a revoir
+class Parking:
+    def __init__(self,etage):
         pass
-    def __str__(self):
-        return f"il reste : {self._place} place"
-      
-parkEase = Parking()
-print(parkEase)
