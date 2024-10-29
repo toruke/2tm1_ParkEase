@@ -1,8 +1,10 @@
 # main du projet Park Ease
+from datetime import datetime
+
 class Ticket:
-    def __init__(self, plaque, arrive, sortie, etage):
+    def __init__(self, plaque="Inconnue", arrive=datetime.now(), sortie=datetime.now(), etage=0):
         self._plaque = plaque
-        self._arrive = arrive
+        self._arrive = arrive 
         self._sortie = sortie
         self._etage = etage
 
@@ -14,9 +16,10 @@ class Ticket:
         return duree * 2.30
 
 class Etage:
-    def __init__(self,id_etage,places=48):
+    def __init__(self,id_etage=0,places=48):
         self._id_etage = id_etage
         self._places = places
+
     @property
     def nbr_places(self):
         return self._places
