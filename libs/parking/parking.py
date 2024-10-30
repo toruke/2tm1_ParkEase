@@ -46,6 +46,10 @@ class Ticket:
     def arrival(self):
         return self._arrival
 
+    def __str__(self):
+        return f"Voiture : {self._plate}\nEtage : {self._floor}\n" \
+               f"Arriver : {self._arrival.hour} Heures\n-------------"
+
 
 class Car:
     def __init__(self, plate):
