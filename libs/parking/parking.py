@@ -2,7 +2,7 @@ from datetime import datetime
 
 
 class Parking:
-    def __init__(self, num_of_floors=3):
+    def __init__(self, num_of_floors=4):
         self._floor = []
         for i in range(num_of_floors):
             self._floor.append(Floor(i))
@@ -16,6 +16,8 @@ class Parking:
             spaces += floor.av_spaces_floor()
         return spaces
 
+    def __str__(self):
+        return f"Il y a actuellement {self.av_spaces_parking()} places libres."
 
 class Floor:
     def __init__(self, id_floor, spaces=48):
