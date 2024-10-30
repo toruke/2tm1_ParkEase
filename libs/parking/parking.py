@@ -19,6 +19,7 @@ class Parking:
     def __str__(self):
         return f"Il y a actuellement {self.av_spaces_parking()} places libres."
 
+
 class Floor:
     def __init__(self, id_floor, spaces=48):
         self._id = id_floor
