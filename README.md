@@ -1,4 +1,4 @@
 # 2tm1_ParkEase
 ## Description du déroule du programme :
 
-on lance simplement le programme ou on aura un invite de command l'utilisateur(employer) sera inviter a enregistrer la plaque qui entre ou sort du parking et il resevra une confirmation que la modification a été enregistrer et resevra un compte rendu sur tout le parking
+Le programme s'exécute simplement et invite l'utilisateur (employé) à enregistrer la plaque d'immatriculation des véhicules entrant ou sortant du parking. L'utilisateur reçoit ensuite une confirmation que la modification a été enregistrée, ainsi qu'un compte rendu sur l'état du parking.
