@@ -2,8 +2,10 @@ from datetime import datetime
 
 
 class Parking:
-    def __init__(self):
+    def __init__(self, num_of_floors=3):
         self._floor = []
+        for i in range(num_of_floors):
+            self._floor.append(Floor(i))
 
     def add_floor(self, floor):
         self._floor.append(floor)
@@ -16,10 +18,8 @@ class Parking:
 
 
 class Floor:
-    def __init__(self, parking, id, spaces=48):
-        # ajout de l'étage au parking
-        parking.add_floor(self) # jsp si ça marche
-        self._id = id
+    def __init__(self, id_floor, spaces=48):
+        self._id = id_floor
         self._spaces = spaces
         self._car = []
 
