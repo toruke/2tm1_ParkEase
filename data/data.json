@@ -1,20 +1,20 @@
 {
     "car": [
         {
-            "plate": "jsf-620",
+            "plate": "DKS028",
             "tickets": [
                 {
-                    "plate": "jsf-620",
-                    "arrival": 1730464028.17947
+                    "plate": "DKS028",
+                    "arrival": 1730483494.072492
                 }
             ]
         },
         {
-            "plate": "zny-017",
+            "plate": "ABC123",
             "tickets": [
                 {
-                    "plate": "zny-017",
-                    "arrival": 1730464028.17947
+                    "plate": "ABC123",
+                    "arrival": 1730483507.156559
                 }
             ]
         }

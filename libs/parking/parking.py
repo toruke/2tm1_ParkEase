@@ -2,8 +2,8 @@ from datetime import datetime
 
 
 class Parking:
-    def __init__(self, car=None, spaces=None, num_of_floors=4, spaces_per_floor=48):
-        self._car = [] if car is None else car
+    def __init__(self, cars=None, spaces=None, num_of_floors=4, spaces_per_floor=48):
+        self._cars = [] if cars is None else cars
         self._spaces = num_of_floors * spaces_per_floor if spaces is None else spaces
 
     @classmethod
@@ -15,21 +15,25 @@ class Parking:
 
     def to_dict(self):
         return {
-            'car': list(map(lambda c: c.to_dict(), self._car)),
+            'car': list(map(lambda c: c.to_dict(), self._cars)),
             'spaces': self._spaces
         }
 
     def add_car(self, car):
-        self._car.append(car)
+        if car.plate in list(map(lambda c: c.plate, self._cars)):
+            raise ValueError(f'Car with plate {car.plate} already exists')
+        car.add_ticket()
+        self._cars.append(car)
 
-    def rmv_car(self, car):
-        self._car.remove(car)
+    def rmv_car(self, plate):
+        car = list(filter(lambda c: c.plate == plate, self._cars))[0]
+        self._cars.remove(car)
 
     def av_spaces(self):
-        return self._spaces - len(self._car)
+        return self._spaces - len(self._cars)
 
     def __str__(self):
-        return f"Il y a actuellement {self.av_spaces()} places libres."
+        return f"There is {self.av_spaces()} spaces available."
 
 
 class Ticket:
@@ -64,6 +68,10 @@ class Car:
         self._plate = plate
         self._tickets = [] if tickets is None else tickets
 
+    @property
+    def plate(self):
+        return self._plate
+
     @classmethod
     def from_dict(cls, data):
         return cls(
@@ -77,8 +85,7 @@ class Car:
             "tickets": list(map(lambda t: t.to_dict(), self._tickets))
         }
 
-    def entrance(self, parking):
-        parking.add_car(self)
+    def add_ticket(self):
         self._tickets.append(Ticket(self._plate))
 
     def __str__(self):
