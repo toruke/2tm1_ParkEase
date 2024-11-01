@@ -1,13 +1,23 @@
 {
-    "plate": "sdk-283",
-    "tickets": [
+    "car": [
         {
-            "plate": "sdk-283",
-            "arrival": 1730389098.087054
+            "plate": "jsf-620",
+            "tickets": [
+                {
+                    "plate": "jsf-620",
+                    "arrival": 1730464028.17947
+                }
+            ]
         },
         {
-            "plate": "sdk-283",
-            "arrival": 1730389098.087054
+            "plate": "zny-017",
+            "tickets": [
+                {
+                    "plate": "zny-017",
+                    "arrival": 1730464028.17947
+                }
+            ]
         }
-    ]
+    ],
+    "spaces": 192
 }

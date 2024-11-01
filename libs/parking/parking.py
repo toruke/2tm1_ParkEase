@@ -2,9 +2,22 @@ from datetime import datetime
 
 
 class Parking:
-    def __init__(self, car=None, num_of_floors=4, spaces_per_floor=48):
+    def __init__(self, car=None, spaces=None, num_of_floors=4, spaces_per_floor=48):
         self._car = [] if car is None else car
-        self._spaces = num_of_floors * spaces_per_floor
+        self._spaces = num_of_floors * spaces_per_floor if spaces is None else spaces
+
+    @classmethod
+    def from_dict(cls, data):
+        return cls(
+            list(map(lambda c: Car.from_dict(c), data['car'])),
+            data['spaces']
+            )
+
+    def to_dict(self):
+        return {
+            'car': list(map(lambda c: c.to_dict(), self._car)),
+            'spaces': self._spaces
+        }
 
     def add_car(self, car):
         self._car.append(car)
@@ -64,7 +77,8 @@ class Car:
             "tickets": list(map(lambda t: t.to_dict(), self._tickets))
         }
 
-    def entrance(self):
+    def entrance(self, parking):
+        parking.add_car(self)
         self._tickets.append(Ticket(self._plate))
 
     def __str__(self):

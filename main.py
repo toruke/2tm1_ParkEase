@@ -4,19 +4,18 @@ import argparse
 
 
 def main(args):
-    # parking = Parking()
-
-    car1 = Car('sdk-283')
-    car1.entrance()
-    car1.entrance()
+    parking = Parking()
+    car1 = Car('jsf-620')
+    car1.entrance(parking)
+    car2 = Car('zny-017')
+    car2.entrance(parking)
 
     with open('data/data.json', 'w', encoding="utf-8") as f:
-        json.dump(car1.to_dict(), f, ensure_ascii=False, indent=4)
+        json.dump(parking.to_dict(), f, ensure_ascii=False, indent=4)
 
     with open('data/data.json', 'r', encoding="utf-8") as f:
         data = json.load(f)
-        # print(data)
-        print(Car.from_dict(data))
+        print(Parking.from_dict(data))
 
     if args.spaces:
         print(parking)
