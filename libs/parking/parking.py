@@ -9,13 +9,13 @@ class Parking:
     @classmethod
     def from_dict(cls, data):
         return cls(
-            list(map(lambda c: Car.from_dict(c), data['car'])),
+            list(map(lambda c: Car.from_dict(c), data['cars'])),
             data['spaces']
             )
 
     def to_dict(self):
         return {
-            'car': list(map(lambda c: c.to_dict(), self._cars)),
+            'cars': list(map(lambda c: c.to_dict(), self._cars)),
             'spaces': self._spaces
         }
 
@@ -26,6 +26,8 @@ class Parking:
         self._cars.append(car)
 
     def rmv_car(self, plate):
+        if plate not in list(map(lambda c: c.plate, self._cars)):
+            raise ValueError(f'Car with plate {plate} does not exist')
         car = list(filter(lambda c: c.plate == plate, self._cars))[0]
         self._cars.remove(car)
 
