@@ -1,0 +1,23 @@
+{
+    "cars": [
+        {
+            "plate": "DKS028",
+            "tickets": [
+                {
+                    "plate": "DKS028",
+                    "arrival": 1730483494.072492
+                }
+            ]
+        },
+        {
+            "plate": "ABC123",
+            "tickets": [
+                {
+                    "plate": "ABC123",
+                    "arrival": 1730483507.156559
+                }
+            ]
+        }
+    ],
+    "spaces": 192
+}
