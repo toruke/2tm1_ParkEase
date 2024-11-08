@@ -37,8 +37,6 @@ if __name__ == '__main__':
             valid_choices = ["in", "out"]
             if state not in valid_choices:
                 raise argparse.ArgumentTypeError(f'The first value must be one of the choices : {valid_choices}')
-            if not plate[0:3].isalpha() or not plate[3:].isnumeric() or len(plate) != 6:
-                raise argparse.ArgumentTypeError('The second value must be a correct plate number (tree letters and tree numbers)')
             return state, plate
         except (ValueError, IndexError):
             raise argparse.ArgumentTypeError(
