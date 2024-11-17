@@ -2,24 +2,59 @@ from datetime import datetime
 
 
 class Parking:
+    """ Represents an entire parking lot, including the available spaces and the cars it contains.
+
+    Attributes:
+        cars (list of Car): A list of Car objects currently parked in the parking lot.
+        spaces (int): The total number of parking spaces available in the parking lot.
+        num_of_floors (int): Number of floors in the parking lot (default is 4).
+        spaces_per_floor (int): Number of spaces per floor in the parking lot (default is 48).
+
+    PRE:
+        - cars is a list of Car objects or None (default: empty list).
+        - spaces is an integer specifying the total number of spaces, or None (default: calculated from num_of_floors and spaces_per_floor).
+        - num_of_floors and spaces_per_floor are positive integers.
+
+    POST: The parking lot is initialized with the specified or default values.
+
+    RAISE: ValueError if num_of_floors or spaces_per_floor is not positive.
+    """
+
     def __init__(self, cars=None, spaces=None, num_of_floors=4, spaces_per_floor=48):
+        if num_of_floors <= 0 or spaces_per_floor <= 0:
+            raise ValueError('num_of_floors and spaces_per_floor must be positive integers.')
         self._cars = [] if cars is None else cars
         self._spaces = num_of_floors * spaces_per_floor if spaces is None else spaces
 
     @classmethod
     def from_dict(cls, data):
+        """ Transform a dictionary into a Parking object.
+
+        PRE: data is a dictionary with key-value pairs.
+        POST: The parking lot is initialized with the specified or default values.
+        """
         return cls(
             list(map(lambda c: Car.from_dict(c), data['cars'])),
             data['spaces']
-            )
+        )
 
     def to_dict(self):
+        """ Transform a Parking object to a dictionary.
+
+        POST: A dictionary with key-value pairs.
+        """
         return {
             'cars': list(map(lambda c: c.to_dict(), self._cars)),
             'spaces': self._spaces
         }
 
     def add_car(self, car):
+        """ Adds a car to the parking lot and adds a new Ticket object to the car.
+
+        PRE: A Car object.
+        POST: None.
+        RAISE: ValueError if car already exists in the parking lot.
+        """
         if car.plate in list(map(lambda c: c.plate, self._cars)):
             raise ValueError(f'Car with plate {car.plate} already exists')
         car.add_ticket()
