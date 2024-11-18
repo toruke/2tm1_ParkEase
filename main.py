@@ -13,7 +13,7 @@ def main(args):
         state, plate = args.management
         try:
             if state == 'in':
-                parkease.add_car(Car(plate))
+                parkease.add_car(plate)
                 print(f"Car with plate {plate} added.")
             else:
                 parkease.rmv_car(plate)

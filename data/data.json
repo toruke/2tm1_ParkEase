@@ -1,5 +1,5 @@
 {
-    "cars": [
+    "cars_in": [
         {
             "plate": "DKS028",
             "tickets": [
@@ -15,6 +15,21 @@
                 {
                     "plate": "ABC123",
                     "arrival": 1730483507.156559
+                }
+            ]
+        }
+    ],
+    "cars_out": [
+        {
+            "plate": "tot111",
+            "tickets": [
+                {
+                    "plate": "tot111",
+                    "arrival": 1731947231.756477
+                },
+                {
+                    "plate": "tot111",
+                    "arrival": 1731947279.322492
                 }
             ]
         }
