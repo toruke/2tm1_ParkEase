@@ -164,3 +164,11 @@ class Subscription:
     def __init__(self, plate):
         self._plate = plate
         self._start = datetime.now()
+
+        try:
+            self._end = self._start.replace(year=self._start.year + 1)
+        except ValueError:
+            self._end = self._start.replace(year=self._start.year + 1, month=3, day=1)
+
+    def __str__(self):
+        return f"Plate : {self._plate}\nStart : {self._start.strftime("%d/%m/%Y à %H:%M:%S")}\nEnd : {self._end.strftime("%d/%m/%Y à %H:%M:%S")}"
