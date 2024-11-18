@@ -1,26 +1,22 @@
 from datetime import datetime
 
 
+class ParkingFull(Exception):
+    pass
+
 class Parking:
-    """ Represents an entire parking lot, including the available spaces and the cars it contains.
-
-    Attributes:
-        cars (list of Car): A list of Car objects currently parked in the parking lot.
-        spaces (int): The total number of parking spaces available in the parking lot.
-        num_of_floors (int): Number of floors in the parking lot (default is 4).
-        spaces_per_floor (int): Number of spaces per floor in the parking lot (default is 48).
-
-    PRE:
-        - cars is a list of Car objects or None (default: empty list).
-        - spaces is an integer specifying the total number of spaces, or None (default: calculated from num_of_floors and spaces_per_floor).
-        - num_of_floors and spaces_per_floor are positive integers.
-
-    POST: The parking lot is initialized with the specified or default values.
-
-    RAISE: ValueError if num_of_floors or spaces_per_floor is not positive.
-    """
+    """ Represents an entire parking lot, including the available spaces and the cars it contains. """
 
     def __init__(self, cars=None, spaces=None, num_of_floors=4, spaces_per_floor=48):
+        """Initializes a new Parking object.
+
+        PRE:
+            - cars is a list of Car objects or None (default: empty list).
+            - spaces is an integer specifying the total number of spaces, or None (default: calculated from num_of_floors and spaces_per_floor).
+            - num_of_floors and spaces_per_floor are positive integers.
+        POST: The parking lot is initialized with the specified or default values.
+        RAISE: ValueError if num_of_floors or spaces_per_floor is not positive.
+        """
         if num_of_floors <= 0 or spaces_per_floor <= 0:
             raise ValueError('num_of_floors and spaces_per_floor must be positive integers.')
         self._cars = [] if cars is None else cars
@@ -41,7 +37,8 @@ class Parking:
     def to_dict(self):
         """ Transform a Parking object to a dictionary.
 
-        POST: A dictionary with key-value pairs.
+        PRE: None.
+        POST: The parking lot is initialized with the specified or default values.
         """
         return {
             'cars': list(map(lambda c: c.to_dict(), self._cars)),
@@ -52,24 +49,44 @@ class Parking:
         """ Adds a car to the parking lot and adds a new Ticket object to the car.
 
         PRE: A Car object.
-        POST: None.
-        RAISE: ValueError if car already exists in the parking lot.
+        POST: Adds the Car object to the parking lot and create a new Ticket object to the car.
+        RAISE:
+            - ParkingFull if there are no available spaces (av_spaces() returns 0).
+            - ValueError if car already exists in the parking lot.
         """
+        if self.av_spaces() == 0:
+            raise ParkingFull("There are no available spaces in the parking lot.")
         if car.plate in list(map(lambda c: c.plate, self._cars)):
             raise ValueError(f'Car with plate {car.plate} already exists')
         car.add_ticket()
         self._cars.append(car)
 
     def rmv_car(self, plate):
+        """ Removes a car from the parking lot.
+
+        PRE: The plate of the car that is to be removed.
+        POST: Removes the car from the parking lot.
+        RAISE: ValueError if a car with the corresponding plate does not exist in the parking lot.
+        """
         if plate not in list(map(lambda c: c.plate, self._cars)):
             raise ValueError(f'Car with plate {plate} does not exist')
         car = list(filter(lambda c: c.plate == plate, self._cars))[0]
         self._cars.remove(car)
 
     def av_spaces(self):
+        """ Returns the total number of spaces available in the parking lot.
+
+        PRE: None.
+        POST: The number of spaces available.
+        """
         return self._spaces - len(self._cars)
 
     def __str__(self):
+        """ Returns a string representation of the Parking object.
+
+        PRE: None.
+        POST: The string representation of the Parking object.
+        """
         return f"There is {self.av_spaces()} spaces available."
 
 
