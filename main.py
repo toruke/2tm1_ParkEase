@@ -3,24 +3,38 @@ from libs.parking import *
 import argparse
 
 
-def my_input(query, choices):
-    """Prompt the user for input until a valid response is provided or they choose to quit.
+def my_input(query, choices=None, numeric=False, my_min=None, my_max=None):
+    """Prompt the user for input with optional numeric range and validation.
 
     PRE:
         - `query` is a string to display as a prompt.
-        - `choices` is a list of valid response options (does not include 'q' initially).
+        - If `numeric` is True:
+            - `my_min` and `my_max` must be provided and define the acceptable numeric range (inclusive).
+        - If `numeric` is False:
+            - `choices` must be provided and define a list of valid response options.
     POST:
-        - Returns a response that matches one of the valid choices.
+        - Returns the user's response as an integer if `numeric` is True.
+        - Returns the user's response as a string if `numeric` is False.
         - If 'q' is entered, the program terminates with a status code of 0.
     """
     query += " (--q-- to quit): "
-    choices.append("q")
-    response = None
-    while response not in choices:
+    response = input(query)
+
+    def my_condition():
+        if numeric:
+            return not (response.isnumeric() and my_min <= int(response) <= my_max)
+        else:
+            return response not in choices
+
+    while my_condition() and response != 'q':
+        if numeric:
+            print(f"Please enter a number between {my_min} and {my_max}.")
+        else:
+            print(f"Please enter a valid response: {choices}")
         response = input(query)
     if response == 'q':
         exit(0)
-    return response
+    return int(response) if numeric else response
 
 
 def main(args):
@@ -45,21 +59,28 @@ def main(args):
         plate = args.subscription
         action = my_input(f"--check-- or --add-- a subscription for '{plate}'?", ['add', 'check', 'q'])
 
-        car = list(filter(lambda c: c.plate == plate, parkease.all_cars()))[0]
+        car = list(filter(lambda c: c.plate == plate, parkease.all_cars))[0]
         if action == 'add':
-            length = my_input(f"For how many months? [{PRICE_PER_MONTH}€/month] (max=24)", list(range(1, 25)))
+            def my_length():
+                return my_input(
+                    f"For how many months? [{PRICE_PER_MONTH}€/month] (max=24)",
+                    numeric=True,
+                    my_min=1,
+                    my_max=24
+                    )
 
-            try:
-                car.add_sub(length)
-                print("Subscription added.")
-            except Exception as e:
-                print(e)
-                extend = my_input("Would you like to extend your existing subscription? yes or no", ['yes', 'no'])
-
+            if car.sub.is_active():
+                extend = my_input("A subscription is already active. Would you like to extend it? yes or no", ['yes', 'no'])
                 if extend == 'yes':
-                    car.extend_sub(length)
+                    car.extend_sub(my_length())
+            else:
+                try:
+                    car.add_sub(my_length())
+                    print("Subscription added.")
+                except Exception as e:
+                    print(e)
 
-        elif action == 'check':
+        else:
             if car.sub is not None:
                 print(car.sub)
             else:

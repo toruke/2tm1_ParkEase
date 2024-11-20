@@ -31,6 +31,10 @@ class Parking:
         self._cars_out = [] if cars_out is None else cars_out
         self._spaces = num_of_floors * spaces_per_floor if spaces is None else spaces
 
+    @property
+    def all_cars(self):
+        return self._cars_in + self._cars_out
+
     @classmethod
     def from_dict(cls, data):
         """ Transform a dictionary into a Parking object.
@@ -88,7 +92,7 @@ class Parking:
         RAISE: ValueError if a car with the corresponding plate does not exist in the parking lot.
         """
         if plate not in list(map(lambda c: c.plate, self._cars_in)):
-            raise ValueError(f'Car with plate {plate} does not exist.')
+            raise ValueError(f"Car with plate {plate} isn't in the parking lot.")
         car = list(filter(lambda c: c.plate == plate, self._cars_in))[0]
         self._cars_in.remove(car)
         self._cars_out.append(car)
@@ -100,9 +104,6 @@ class Parking:
         POST: The number of spaces available.
         """
         return self._spaces - len(self._cars_in)
-
-    def all_cars(self):
-        return self._cars_in + self._cars_out
 
     def __str__(self):
         """ Returns a string representation of the Parking object.
