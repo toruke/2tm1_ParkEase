@@ -1,5 +1,10 @@
 from datetime import datetime
 
+# car park rates in euros
+PRICE_PER_HOUR = 2
+PRICE_PER_DAY = 12
+PRICE_PER_MONTH = 100
+
 
 class ParkingFull(Exception):
     pass
@@ -181,8 +186,9 @@ class Car:
 
 
 class Subscription:
-    def __init__(self, plate, start=None):
+    def __init__(self, plate, length=1, start=None):
         self._plate = plate
+        self._length = length   # in months
         self._start = datetime.now() if start is None else start
 
     @property
@@ -201,12 +207,14 @@ class Subscription:
     def from_dict(cls, data):
         return cls(
             data['plate'],
+            data['length'],
             datetime.fromtimestamp(data['start'])
         )
 
     def to_dict(self):
         return {
             "plate": self._plate,
+            "length": self._length,
             "start": self._start.timestamp()
         }
 
