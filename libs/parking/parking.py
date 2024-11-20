@@ -93,6 +93,9 @@ class Parking:
         """
         return self._spaces - len(self._cars_in)
 
+    def all_cars(self):
+        return self._cars_in + self._cars_out
+
     def __str__(self):
         """ Returns a string representation of the Parking object.
 
@@ -130,29 +133,42 @@ class Ticket:
 
 
 class Car:
-    def __init__(self, plate, tickets=None):
+    def __init__(self, plate, tickets=None, sub=None):
         self._plate = plate
         self._tickets = [] if tickets is None else tickets
+        self._sub = sub
 
     @property
     def plate(self):
         return self._plate
 
+    @property
+    def sub(self):
+        return self._sub
+
     @classmethod
     def from_dict(cls, data):
         return cls(
             data['plate'],
-            list(map(lambda t: Ticket.from_dict(t), data['tickets']))
+            list(map(lambda t: Ticket.from_dict(t), data['tickets'])),
+            Subscription.from_dict(data['sub'])
         )
 
     def to_dict(self):
         return {
             "plate": self._plate,
-            "tickets": list(map(lambda t: t.to_dict(), self._tickets))
+            "tickets": list(map(lambda t: t.to_dict(), self._tickets)),
+            "sub": self._sub.to_dict() if self._sub is not None else None
         }
 
     def add_ticket(self):
         self._tickets.append(Ticket(self._plate))
+
+    def add_sub(self):
+        if self._sub is None or self._sub.end < datetime.now():
+            self._sub = Subscription(self._plate)
+        else:
+            raise ValueError(f'This car already has a subscription that ends on  {self._sub.end.strftime("%d/%m/%Y")}.')
 
     def __str__(self):
         txt = f"Plate : {self._plate}\nTickets :\n"
@@ -169,6 +185,29 @@ class Subscription:
             self._end = self._start.replace(year=self._start.year + 1)
         except ValueError:
             self._end = self._start.replace(year=self._start.year + 1, month=3, day=1)
+
+    @property
+    def start(self):
+        return self._start
+
+    @property
+    def end(self):
+        return self._end
+
+    @classmethod
+    def from_dict(cls, data):
+        return cls(
+            data['plate'],
+            datetime.fromtimestamp(data['start']),
+            datetime.fromtimestamp(data['end'])
+        )
+
+    def to_dict(self):
+        return {
+            "plate": self._plate,
+            "start": self._start.timestamp(),
+            "end": self._end.timestamp()
+        }
 
     def __str__(self):
         return f"Plate : {self._plate}\nStart : {self._start.strftime("%d/%m/%Y à %H:%M:%S")}\nEnd : {self._end.strftime("%d/%m/%Y à %H:%M:%S")}"

@@ -21,6 +21,22 @@ def main(args):
         except Exception as e:
             print(e)
 
+    if args.subscription:
+        plate = args.subscription
+        action = input(f"--check-- or --add-- a subscription for {plate} ? ")
+        car = list(filter(lambda c: c.plate == plate, parkease.all_cars()))[0]
+        if action == 'add':
+            try:
+                car.add_subscription()
+                print("Subscription added.")
+            except Exception as e:
+                print(e)
+        elif action == 'check':
+            if car.sub is not None:
+                print(car.sub)
+            else:
+                print("No active subscription.")
+
     if args.spaces:
         print(parkease)
 
@@ -45,7 +61,13 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Parking manager')
     parser.add_argument('-m', '--management', nargs=2, type=str, help='First value, the state of the car: ["in", "out"], second value, the plate: str')
     parser.add_argument('-s', '--spaces', action='store_true', help='Show how many spaces are available')
+    parser.add_argument('-sub', '--subscription', type=str, help='Check whether a car has an active subscription or adds a subscription to a car via its plate')
     args = parser.parse_args()
+
+
+
+    if args.management and args.subscription:
+        raise argparse.ArgumentTypeError('--management and --subscription are mutually exclusive')
 
     if args.management:
         try:
