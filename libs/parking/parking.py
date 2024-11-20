@@ -1,4 +1,4 @@
-from datetime import datetime
+from ..my_datetime import *
 
 # car park rates in euros
 PRICE_PER_HOUR = 2
@@ -172,11 +172,14 @@ class Car:
     def add_ticket(self):
         self._tickets.append(Ticket(self._plate))
 
-    def add_sub(self):
+    def add_sub(self, length):  # in months
         if self._sub is None or not self._sub.is_active():
-            self._sub = Subscription(self._plate)
+            self._sub = Subscription(self._plate, length)
         else:
             raise ValueError(f'This car already has a subscription that ends on {self._sub.end.strftime("%d/%m/%Y")}.')
+
+    def extend_sub(self, length):   # in months
+        self._sub.extend(length)
 
     def __str__(self):
         txt = f"Plate : {self._plate}\nTickets :\n"
@@ -186,10 +189,14 @@ class Car:
 
 
 class Subscription:
+    """ Monthly car park subscription.
+
+    !!! Note that here the datetime class is replaced by its MyDateTime subclass, which has the add_months() method.
+    """
     def __init__(self, plate, length=1, start=None):
         self._plate = plate
         self._length = length   # in months
-        self._start = datetime.now() if start is None else start
+        self._start = MyDateTime.now() if start is None else start
 
     @property
     def start(self):
@@ -197,18 +204,14 @@ class Subscription:
 
     @property
     def end(self):
-        try:
-            end = self._start.replace(year=self._start.year + 1)
-        except ValueError:
-            end = self._start.replace(year=self._start.year + 1, month=3, day=1)
-        return end
+        return self._start.add_months(self._length)
 
     @classmethod
     def from_dict(cls, data):
         return cls(
             data['plate'],
             data['length'],
-            datetime.fromtimestamp(data['start'])
+            MyDateTime.fromtimestamp(data['start'])
         )
 
     def to_dict(self):
@@ -220,6 +223,9 @@ class Subscription:
 
     def is_active(self):
         return datetime.now() < self.end
+
+    def extend(self, length):   # in months
+        self._length += length
 
     def __str__(self):
         return f"Plate : {self._plate}\nStart : {self._start.strftime("%d/%m/%Y à %H:%M:%S")}\nEnd : {self.end.strftime("%d/%m/%Y à %H:%M:%S")}"

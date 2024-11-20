@@ -3,6 +3,26 @@ from libs.parking import *
 import argparse
 
 
+def my_input(query, choices):
+    """Prompt the user for input until a valid response is provided or they choose to quit.
+
+    PRE:
+        - `query` is a string to display as a prompt.
+        - `choices` is a list of valid response options (does not include 'q' initially).
+    POST:
+        - Returns a response that matches one of the valid choices.
+        - If 'q' is entered, the program terminates with a status code of 0.
+    """
+    query += " (--q-- to quit): "
+    choices.append("q")
+    response = None
+    while response not in choices:
+        response = input(query)
+    if response == 'q':
+        exit(0)
+    return response
+
+
 def main(args):
     if json_reader():
         parkease = Parking().from_dict(json_reader())
@@ -23,14 +43,22 @@ def main(args):
 
     if args.subscription:
         plate = args.subscription
-        action = input(f"--check-- or --add-- a subscription for {plate} ? ")
+        action = my_input(f"--check-- or --add-- a subscription for '{plate}'?", ['add', 'check', 'q'])
+
         car = list(filter(lambda c: c.plate == plate, parkease.all_cars()))[0]
         if action == 'add':
+            length = my_input(f"For how many months? [{PRICE_PER_MONTH}€/month] (max=24)", list(range(1, 25)))
+
             try:
-                car.add_sub()
+                car.add_sub(length)
                 print("Subscription added.")
             except Exception as e:
                 print(e)
+                extend = my_input("Would you like to extend your existing subscription? yes or no", ['yes', 'no'])
+
+                if extend == 'yes':
+                    car.extend_sub(length)
+
         elif action == 'check':
             if car.sub is not None:
                 print(car.sub)
