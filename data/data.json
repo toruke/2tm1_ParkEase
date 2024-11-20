@@ -7,7 +7,8 @@
                     "plate": "DKS028",
                     "arrival": 1730483494.072492
                 }
-            ]
+            ],
+            "sub": null
         },
         {
             "plate": "ABC123",
@@ -16,7 +17,8 @@
                     "plate": "ABC123",
                     "arrival": 1730483507.156559
                 }
-            ]
+            ],
+            "sub": null
         }
     ],
     "cars_out": [
@@ -31,7 +33,11 @@
                     "plate": "tot111",
                     "arrival": 1731947279.322492
                 }
-            ]
+            ],
+            "sub": {
+                "plate": "tot111",
+                "start": 1732101823.157353
+            }
         }
     ],
     "spaces": 192

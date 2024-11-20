@@ -27,7 +27,7 @@ def main(args):
         car = list(filter(lambda c: c.plate == plate, parkease.all_cars()))[0]
         if action == 'add':
             try:
-                car.add_subscription()
+                car.add_sub()
                 print("Subscription added.")
             except Exception as e:
                 print(e)

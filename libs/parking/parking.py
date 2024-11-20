@@ -151,14 +151,14 @@ class Car:
         return cls(
             data['plate'],
             list(map(lambda t: Ticket.from_dict(t), data['tickets'])),
-            Subscription.from_dict(data['sub'])
+            None if data['sub'] is None else Subscription.from_dict(data['sub'])
         )
 
     def to_dict(self):
         return {
             "plate": self._plate,
             "tickets": list(map(lambda t: t.to_dict(), self._tickets)),
-            "sub": self._sub.to_dict() if self._sub is not None else None
+            "sub": None if self._sub is None else self._sub.to_dict()
         }
 
     def add_ticket(self):
@@ -177,14 +177,9 @@ class Car:
         return txt
 
 class Subscription:
-    def __init__(self, plate):
+    def __init__(self, plate, start=None):
         self._plate = plate
-        self._start = datetime.now()
-
-        try:
-            self._end = self._start.replace(year=self._start.year + 1)
-        except ValueError:
-            self._end = self._start.replace(year=self._start.year + 1, month=3, day=1)
+        self._start = datetime.now() if start is None else start
 
     @property
     def start(self):
@@ -192,22 +187,24 @@ class Subscription:
 
     @property
     def end(self):
-        return self._end
+        try:
+            end = self._start.replace(year=self._start.year + 1)
+        except ValueError:
+            end = self._start.replace(year=self._start.year + 1, month=3, day=1)
+        return end
 
     @classmethod
     def from_dict(cls, data):
         return cls(
             data['plate'],
-            datetime.fromtimestamp(data['start']),
-            datetime.fromtimestamp(data['end'])
+            datetime.fromtimestamp(data['start'])
         )
 
     def to_dict(self):
         return {
             "plate": self._plate,
-            "start": self._start.timestamp(),
-            "end": self._end.timestamp()
+            "start": self._start.timestamp()
         }
 
     def __str__(self):
-        return f"Plate : {self._plate}\nStart : {self._start.strftime("%d/%m/%Y à %H:%M:%S")}\nEnd : {self._end.strftime("%d/%m/%Y à %H:%M:%S")}"
+        return f"Plate : {self._plate}\nStart : {self._start.strftime("%d/%m/%Y à %H:%M:%S")}\nEnd : {self.end.strftime("%d/%m/%Y à %H:%M:%S")}"
