@@ -4,6 +4,7 @@ from datetime import datetime
 class ParkingFull(Exception):
     pass
 
+
 class Parking:
     """ Represents an entire parking lot, including the available spaces and the cars it contains.
     It stores also the cars that already been in one time.
@@ -64,12 +65,14 @@ class Parking:
         if plate in list(map(lambda c: c.plate, self._cars_in)):
             raise ValueError(f'Car with plate {plate} already exists.')
 
-        car = Car(plate)
         if plate in list(map(lambda c: c.plate, self._cars_out)):
             car = list(filter(lambda c: c.plate == plate, self._cars_out))[0]
             self._cars_out.remove(car)
+        else:
+            car = Car(plate)
 
-        car.add_ticket()
+        if not car.sub.is_active():
+            car.add_ticket()
         self._cars_in.append(car)
 
     def rmv_car(self, plate):
@@ -165,16 +168,17 @@ class Car:
         self._tickets.append(Ticket(self._plate))
 
     def add_sub(self):
-        if self._sub is None or self._sub.end < datetime.now():
+        if self._sub is None or not self._sub.is_active():
             self._sub = Subscription(self._plate)
         else:
-            raise ValueError(f'This car already has a subscription that ends on  {self._sub.end.strftime("%d/%m/%Y")}.')
+            raise ValueError(f'This car already has a subscription that ends on {self._sub.end.strftime("%d/%m/%Y")}.')
 
     def __str__(self):
         txt = f"Plate : {self._plate}\nTickets :\n"
         for ticket in self._tickets:
             txt += f"{ticket.__str__()}\n"
         return txt
+
 
 class Subscription:
     def __init__(self, plate, start=None):
@@ -206,5 +210,12 @@ class Subscription:
             "start": self._start.timestamp()
         }
 
+    def is_active(self):
+        return datetime.now() < self.end
+
     def __str__(self):
         return f"Plate : {self._plate}\nStart : {self._start.strftime("%d/%m/%Y à %H:%M:%S")}\nEnd : {self.end.strftime("%d/%m/%Y à %H:%M:%S")}"
+
+
+class Payment:
+    pass
