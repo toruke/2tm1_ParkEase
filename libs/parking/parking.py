@@ -235,5 +235,4 @@ class Subscription:
 class Payment:
     pass
 
-class arno:
-    pass
+
