@@ -279,6 +279,15 @@ class Subscription:
         self._plate = plate
         self._length = length  # in months
         self._start = MyDateTime.now() if start is None else start
+        """Initialize a new Subscription object.
+         
+            PRE:
+                - The plate of the car (must be a non-empty string).
+                - The number of months for the subscruption 
+                - The start of they object subscription
+            POST: a Subscribe object are initalized with the specified or default values. 
+
+        """
 
     @property
     def start(self):
@@ -290,6 +299,11 @@ class Subscription:
 
     @classmethod
     def from_dict(cls, data):
+        """ Transforms a dictionary into a Subscription Object.
+
+            PRE: data is a dictionary with key-value pairs.
+            POST: the dictionary object is initialized with the specified or default values.
+        """
         return cls(
             data['plate'],
             data['length'],
@@ -297,6 +311,11 @@ class Subscription:
         )
 
     def to_dict(self):
+        """ Transforms a Subscription object to a dictionary
+
+            PRE: None.
+            POST: The dictionary representation of the Subscription object.
+        """
         return {
             "plate": self._plate,
             "length": self._length,
@@ -304,12 +323,27 @@ class Subscription:
         }
 
     def is_active(self):
+        """ Check if the Subscription is still available
+
+            PRE: None.
+            POST: return true false if the Subscription time is still available
+        """
         return datetime.now() < self.end
 
     def extend(self, length):   # in months
+        """ Increase the time of the subscription.
+
+            PRE: length is a int
+            POST: add time to the property length
+        """
         self._length += length
 
     def __str__(self):
+        """ Returns a string representation of the Subscription object.
+
+            PRE: None.
+            POST: The string representation of the Subscription object
+        """
         return f"Plate : {self._plate}\nStart : {self._start.strftime("%d/%m/%Y à %H:%M:%S")}\nEnd : {self.end.strftime("%d/%m/%Y à %H:%M:%S")}"
 
 
