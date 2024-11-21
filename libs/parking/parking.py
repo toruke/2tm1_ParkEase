@@ -118,6 +118,16 @@ class Ticket:
     def __init__(self, plate, arrival=None):
         self._plate = plate
         self._arrival = datetime.now() if arrival is None else arrival
+        """ Initializes a new Ticket object.
+                
+            PRE:
+                -The plate of the car (must be a non-empty string).
+                -`arrival` must be a datetime object.
+            POST: A Ticket object is initialized with the specified or default values.
+            RAISE:
+                -ValueError if the plate is not a non-empty string.
+                -ValueError if the arrival is not a datetime object
+        """
 
     @property
     def arrival(self):
@@ -125,18 +135,33 @@ class Ticket:
 
     @classmethod
     def from_dict(cls, data):
+        """ Transforms a dictionary into a Ticket object.
+
+            PRE: data is a dictionary with key-value pairs.
+            POST: The Ticket object is initialized with the specified or default values.
+        """
         return cls(
             data['plate'],
             datetime.fromtimestamp(data['arrival'])
         )
 
     def to_dict(self):
+        """ Transforms a Ticket object to a dictionary.
+
+            PRE: None.
+            POST: The dictionary representation of the Ticket object.
+        """
         return {
             "plate": self._plate,
             "arrival": self._arrival.timestamp()
         }
 
     def __str__(self):
+        """ Returns a string representation of the Ticket object.
+
+            PRE: None.
+            POST: The string representation of the Ticket object.
+        """
         return f"Car : {self._plate}\n" \
                f"Arrival : {self._arrival.strftime("%d/%m/%Y à %H:%M:%S")}\n-------------"
 
