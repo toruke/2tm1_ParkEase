@@ -280,9 +280,9 @@ class Subscription:
 
             PRE:
                 - The plate of the car (must be a non-empty string).
-                - The number of months for the subscruption
+                - The number of months for the subscription
                 - The start of they object subscription
-            POST: a Subscribe object are initalized with the specified or default values.
+            POST: a Subscribe object are initialized with the specified or default values.
         """
         self._plate = plate
         self._length = length  # in months
@@ -332,7 +332,7 @@ class Subscription:
     def extend(self, length):   # in months
         """ Increase the time of the subscription.
 
-            PRE: length is a int
+            PRE: length is an int
             POST: add time to the property length
         """
         self._length += length
