@@ -116,10 +116,8 @@ class Parking:
 
 class Ticket:
     def __init__(self, plate, arrival=None):
-        self._plate = plate
-        self._arrival = datetime.now() if arrival is None else arrival
         """ Initializes a new Ticket object.
-                
+
             PRE:
                 -The plate of the car (must be a non-empty string).
                 -`arrival` must be a datetime object.
@@ -128,6 +126,8 @@ class Ticket:
                 -ValueError if the plate is not a non-empty string.
                 -ValueError if the arrival is not a datetime object
         """
+        self._plate = plate
+        self._arrival = datetime.now() if arrival is None else arrival
 
     @property
     def arrival(self):
@@ -168,9 +168,6 @@ class Ticket:
 
 class Car:
     def __init__(self, plate, tickets=None, sub=None):
-        self._plate = plate
-        self._tickets = [] if tickets is None else tickets
-        self._sub = sub
         """Initializes a new Car object.
 
                PRE:
@@ -178,10 +175,13 @@ class Car:
                    - A list of Ticket objects associated with the car or None (default: empty list).
                    - The subscription associated with the car (default None).
                POST: A Car object is initialized with the specified or default values.
-               RAISE: 
+               RAISE:
                    - TypeError if plate is not a string or tickets is not a list.
                    - ValueError if plate is an empty string.
         """
+        self._plate = plate
+        self._tickets = [] if tickets is None else tickets
+        self._sub = sub
 
     @property
     def plate(self):
@@ -217,56 +217,56 @@ class Car:
         }
 
     def add_ticket(self):
-        self._tickets.append(Ticket(self._plate))
         """ Adds a ticket to the car object.
 
-                PRE: The car must have a valid plate number (non-empty string).
-                POST: A new Ticket object is created with the car's plate and added to the tickets list.
-                RAISE: ValueError: If the car's plate is invalid (e.g., None or empty string).   
+            PRE: The car must have a valid plate number (non-empty string).
+            POST: A new Ticket object is created with the car's plate and added to the tickets list.
+            RAISE: ValueError: If the car's plate is invalid (e.g., None or empty string).
         """
+        self._tickets.append(Ticket(self._plate))
 
     def add_sub(self, length):  # in months
+        """ Adds a subscription to the car object.
+
+            PRE:
+                -The car may or may not already have a subscription.
+                -`length` is an integer representing the subscription duration in months.
+            POST:
+                -A new subscription is added to the car if there is no active subscription.
+                -If there is an active subscription, a ValueError is raised.
+            RAISE:
+                -ValueError if the `length` is not a positive integer.
+                -ValueError if the car already has an active subscription.
+
+        """
         if self._sub is None or not self._sub.is_active():
             self._sub = Subscription(self._plate, length)
         else:
             raise ValueError(f'This car already has a subscription that ends on {self._sub.end.strftime("%d/%m/%Y")}.')
-        """ Adds a subscription to the car object.
-        
-                PRE: 
-                    -The car may or may not already have a subscription.
-                    -`length` is an integer representing the subscription duration in months.
-                POST: 
-                    -A new subscription is added to the car if there is no active subscription.
-                    -If there is an active subscription, a ValueError is raised.
-                RAISE:
-                    -ValueError if the `length` is not a positive integer.
-                    -ValueError if the car already has an active subscription.
-                
-        """
 
     def extend_sub(self, length):   # in months
-        self._sub.extend(length)
         """ Extends the car's subscription to the specified length.
-            
-                PRE:
-                    -The car must have an existing subscription.
-                    -`length` is an integer representing the subscription duration in months.
-                POST: 
-                    -Extends the car's subscription to the specified length.
-                RAISE: 
-                    -ValueError if `length` is not a positive integer.
-                    -AttributeError if there is no active subscription to extend.
+
+            PRE:
+                -The car must have an existing subscription.
+                -`length` is an integer representing the subscription duration in months.
+            POST:
+                -Extends the car's subscription to the specified length.
+            RAISE:
+                -ValueError if `length` is not a positive integer.
+                -AttributeError if there is no active subscription to extend.
         """
+        self._sub.extend(length)
 
     def __str__(self):
+        """ Returns a string representation of the Car object.
+
+            PRE: None.
+            POST: The string representation of the Car object.
+        """
         txt = f"Plate : {self._plate}\nTickets :\n"
         for ticket in self._tickets:
             txt += f"{ticket.__str__()}\n"
-        """ Returns a string representation of the Car object.
-
-                PRE: None.
-                POST: The string representation of the Car object.
-        """
         return txt
 
 
@@ -276,18 +276,17 @@ class Subscription:
     !!! Note that here the datetime class is replaced by its MyDateTime subclass, which has the add_months() method.
     """
     def __init__(self, plate, length=1, start=None):
+        """Initialize a new Subscription object.
+
+            PRE:
+                - The plate of the car (must be a non-empty string).
+                - The number of months for the subscruption
+                - The start of they object subscription
+            POST: a Subscribe object are initalized with the specified or default values.
+        """
         self._plate = plate
         self._length = length  # in months
         self._start = MyDateTime.now() if start is None else start
-        """Initialize a new Subscription object.
-         
-            PRE:
-                - The plate of the car (must be a non-empty string).
-                - The number of months for the subscruption 
-                - The start of they object subscription
-            POST: a Subscribe object are initalized with the specified or default values. 
-
-        """
 
     @property
     def start(self):
@@ -349,5 +348,4 @@ class Subscription:
 
 class Payment:
     pass
-
 
