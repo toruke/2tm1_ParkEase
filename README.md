@@ -11,16 +11,8 @@ usage: main.py [-h] [-m MANAGEMENT MANAGEMENT] [-s] [-sub SUBSCRIPTION]
 Parking manager
 
 
-options:
-
-  -h, --help            show this help message and exit
-  
-  -m MANAGEMENT MANAGEMENT, --management MANAGEMENT MANAGEMENT
-  
-                        First value, the state of the car you want to manage: ["in", "out"], second value, his plate: str
-                        
-  -s, --spaces          Show how many spaces are available.
-  
-  -sub SUBSCRIPTION, --subscription SUBSCRIPTION
-  
-                        Requires the plate number of the car for which you want to manipulate the subscription.
+options:\
+  -h, --help            show this help message and exit\
+  -m MANAGEMENT MANAGEMENT, --management MANAGEMENT MANAGEMENT First value, the state of the car you want to manage: ["in", "out"], second value, his plate: str\
+  -s, --spaces          Show how many spaces are available.\
+  -sub SUBSCRIPTION, --subscription SUBSCRIPTION Requires the plate number of the car for which you want to manipulate the subscription.
