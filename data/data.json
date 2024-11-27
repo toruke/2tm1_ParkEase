@@ -38,6 +38,20 @@
                 }
             ],
             "sub": null
+        },
+        {
+            "plate": "aze000",
+            "tickets": [
+                {
+                    "plate": "aze000",
+                    "arrival": 1732739379.809412
+                }
+            ],
+            "sub": {
+                "plate": "aze000",
+                "length": 3,
+                "start": 1732739497.679869
+            }
         }
     ],
     "spaces": 192
