@@ -80,8 +80,7 @@ class Parking:
         else:
             car = Car(plate)
 
-        if not car.sub.is_active():
-            car.add_ticket()
+        car.add_ticket()
         self._cars_in.append(car)
 
     def rmv_car(self, plate):
@@ -96,6 +95,7 @@ class Parking:
         car = list(filter(lambda c: c.plate == plate, self._cars_in))[0]
         self._cars_in.remove(car)
         self._cars_out.append(car)
+        return car.last_ticket.parked_time, car.checkout(), car.sub
 
     def av_spaces(self):
         """ Returns the total number of spaces available in the parking lot.
@@ -132,6 +132,10 @@ class Ticket:
     @property
     def arrival(self):
         return self._arrival
+
+    @property
+    def parked_time(self):
+        return datetime.now() - self._arrival
 
     @classmethod
     def from_dict(cls, data):
@@ -190,6 +194,10 @@ class Car:
     @property
     def sub(self):
         return self._sub
+
+    @property
+    def last_ticket(self):
+        return self._tickets[-1]
 
     @classmethod
     def from_dict(cls, data):
@@ -258,6 +266,9 @@ class Car:
         """
         self._sub.extend(length)
 
+    def checkout(self):
+        return Payment(self).amount_due()
+
     def __str__(self):
         """ Returns a string representation of the Car object.
 
@@ -322,12 +333,20 @@ class Subscription:
         }
 
     def is_active(self):
-        """ Check if the Subscription is still available
+        """ Check if the Subscription is active.
 
             PRE: None.
-            POST: return true false if the Subscription time is still available
+            POST: return true false if the Subscription is active.
         """
         return datetime.now() < self.end
+
+    def was_active(self, date):
+        """ Check if the Subscription was active at the specified date.
+
+            PRE: date is a datetime.
+            POST: return true if the Subscription was active at the specified date.
+        """
+        return date < self.end
 
     def extend(self, length):   # in months
         """ Increase the time of the subscription.
@@ -347,5 +366,14 @@ class Subscription:
 
 
 class Payment:
-    pass
+    def __init__(self, car):
+        self._car = car
 
+    def amount_due(self):
+        ticket = self._car.last_ticket
+        sub = self._car.sub
+        if sub is not None and sub.was_active(ticket.arrival):
+            return 0
+        amount_for_days = ticket.parked_time.days * PRICE_PER_DAY
+        amount_for_hours = int(ticket.parked_time.seconds / 3600) * PRICE_PER_HOUR
+        return amount_for_days + amount_for_hours

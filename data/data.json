@@ -1,21 +1,19 @@
 {
     "cars_in": [
         {
-            "plate": "DKS028",
-            "tickets": [
-                {
-                    "plate": "DKS028",
-                    "arrival": 1730483494.072492
-                }
-            ],
-            "sub": null
-        },
-        {
             "plate": "ABC123",
             "tickets": [
                 {
                     "plate": "ABC123",
                     "arrival": 1730483507.156559
+                },
+                {
+                    "plate": "ABC123",
+                    "arrival": 1732722996.537933
+                },
+                {
+                    "plate": "ABC123",
+                    "arrival": 1732723007.815207
                 }
             ],
             "sub": null
@@ -24,21 +22,22 @@
     "cars_out": [
         {
             "plate": "tot111",
-            "tickets": [
-                {
-                    "plate": "tot111",
-                    "arrival": 1731947231.756477
-                },
-                {
-                    "plate": "tot111",
-                    "arrival": 1731947279.322492
-                }
-            ],
+            "tickets": [],
             "sub": {
                 "plate": "tot111",
                 "length": 2,
                 "start": 1732102708.444725
             }
+        },
+        {
+            "plate": "DKS028",
+            "tickets": [
+                {
+                    "plate": "DKS028",
+                    "arrival": 1730483494.072492
+                }
+            ],
+            "sub": null
         }
     ],
     "spaces": 192

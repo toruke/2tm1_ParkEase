@@ -50,8 +50,9 @@ def main(args):
                 parkease.add_car(plate)
                 print(f"Car with plate {plate} added.")
             else:
-                parkease.rmv_car(plate)
-                print(f"Car with plate {plate} removed.")
+                parked_time, amount_due, sub = parkease.rmv_car(plate)
+                sub_msg = f"Your subscription ends on {sub.end.strftime('%d/%m/%Y')}.\n" if sub is not None else ""
+                print(f"Car with plate {plate} removed.\nYou are staying {parked_time.days} days and {int(parked_time.seconds / 3600)} hours.\n{sub_msg}The amount to be paid is €{amount_due}.")
         except Exception as e:
             print(e)
 
