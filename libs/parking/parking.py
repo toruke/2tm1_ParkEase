@@ -317,3 +317,46 @@ class Payment:
     pass
 
 
+class Report:
+    """ Classe pour générer des rapports détaillés sur l'occupation du parking """
+
+    def __init__(self, parking):
+        """Initialisation du rapport avec l'objet Parking."""
+        self.parking = parking
+        self.vehicle_count_per_day = {}
+        self.peak_hours = []
+        # Plages horaires définies pour les heures de pointe
+        self.peak_time_ranges = [(7, 9), (17, 19)]
+        self.peak_hour_count = {range_str: 0 for range_str in self.peak_time_ranges}
+
+    def record_vehicle(self, arrival_time):
+        date = arrival_time.date()
+        if date not in self.vehicle_count_per_day:
+            self.vehicle_count_per_day[date] = 0
+        self.vehicle_count_per_day[date] += 1
+
+        self._detect_peak_hours(arrival_time)
+
+    def _detect_peak_hours(self, arrival_time):
+        for start_hour, end_hour in self.peak_time_ranges:
+            if start_hour <= arrival_time.hour < end_hour:
+                self.peak_hour_count[(start_hour, end_hour)] += 1
+
+    def get_daily_report(self):
+        return self.vehicle_count_per_day
+
+    def get_peak_hours(self):
+        peak_hours_report = []
+        for time_range, count in self.peak_hour_count.items():
+            peak_hours_report.append(f"Plage {time_range[0]}h-{time_range[1]}h : {count} véhicules")
+        return peak_hours_report
+
+    def display_report(self):
+        print("Rapport quotidien du parking:")
+        for date, count in self.vehicle_count_per_day.items():
+            print(f"{date}: {count} véhicules")
+
+        print("\nHeures de pointe:")
+        peak_hours = self.get_peak_hours()
+        for report in peak_hours:
+            print(report)
