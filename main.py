@@ -50,8 +50,9 @@ def main(args):
                 parkease.add_car(plate)
                 print(f"Car with plate {plate} added.")
             else:
-                parkease.rmv_car(plate)
-                print(f"Car with plate {plate} removed.")
+                parked_time, amount_due, sub = parkease.rmv_car(plate)
+                sub_msg = f"Your subscription ends on {sub.end.strftime('%d/%m/%Y')}.\n" if sub is not None else ""
+                print(f"Car with plate {plate} removed.\nYou are staying {parked_time.days} days and {int(parked_time.seconds / 3600)} hours.\n{sub_msg}The amount to be paid is €{amount_due}.")
         except Exception as e:
             print(e)
 
@@ -69,7 +70,7 @@ def main(args):
                     my_max=24
                     )
 
-            if car.sub.is_active():
+            if car.sub is not None and car.sub.is_active():
                 extend = my_input("A subscription is already active. Would you like to extend it? yes or no", ['yes', 'no'])
                 if extend == 'yes':
                     car.extend_sub(my_length())
@@ -93,12 +94,11 @@ def main(args):
 
 
 if __name__ == '__main__':
-    # Définir le type personnalisé pour valider les valeurs
     def validate_two_values(value_list):
         try:
             state = value_list[0]
             plate = value_list[1]
-            # Liste de choix acceptés pour la première valeur
+
             valid_choices = ["in", "out"]
             if state not in valid_choices:
                 raise argparse.ArgumentTypeError(f'The first value must be one of the choices : {valid_choices}')
@@ -107,10 +107,10 @@ if __name__ == '__main__':
             raise argparse.ArgumentTypeError(
                 'Please provide two values: a predefined choice for the first (["in", "out"]), and a str for the second')
 
-    parser = argparse.ArgumentParser(description='Parking manager')
-    parser.add_argument('-m', '--management', nargs=2, type=str, help='First value, the state of the car: ["in", "out"], second value, the plate: str')
-    parser.add_argument('-s', '--spaces', action='store_true', help='Show how many spaces are available')
-    parser.add_argument('-sub', '--subscription', type=str, help='Check whether a car has an active subscription or adds a subscription to a car via its plate')
+    parser = argparse.ArgumentParser(prog='main.py', description='Parking manager')
+    parser.add_argument('-m', '--management', nargs=2, type=str, help='First value, the state of the car you want to manage: ["in", "out"], second value, his plate: str')
+    parser.add_argument('-s', '--spaces', action='store_true', help='Show how many spaces are available.')
+    parser.add_argument('-sub', '--subscription', type=str, help='Requires the plate number of the car for which you want to manipulate the subscription.')
     args = parser.parse_args()
 
 
