@@ -82,6 +82,10 @@ class Parking:
         if plate in list(map(lambda c: c.plate, self._cars_in)):
             raise ValueError(f'Car with plate {plate} already exists.')
 
+        # Si le parking est presque plein, envoie une alerte
+        if self.av_spaces() / self._spaces <= Parking.ALERT_THRESHOLD:
+            self.send_alert()
+
         if plate in list(map(lambda c: c.plate, self._cars_out)):
             car = list(filter(lambda c: c.plate == plate, self._cars_out))[0]
             self._cars_out.remove(car)
@@ -114,7 +118,7 @@ class Parking:
         return self._spaces - len(self._cars_in)
 
     def send_alert(self):
-        print(f"Alerte : Le parking est presque plein ! Il reste seulement {self.av_spaces()} places disponibles.")
+        print(f"Alert: The car park is almost full! There are only {self.av_spaces()} spaces available.")
 
     def __str__(self):
         """ Returns a string representation of the Parking object.
@@ -325,7 +329,17 @@ class Subscription:
 
 
 class Payment:
-    pass
+    def __init__(self, car):
+        self._car = car
+
+    def amount_due(self):
+        ticket = self._car.last_ticket
+        sub = self._car.sub
+        if sub is not None and sub.was_active(ticket.arrival):
+            return 0
+        amount_for_days = ticket.parked_time.days * PRICE_PER_DAY
+        amount_for_hours = int(ticket.parked_time.seconds / 3600) * PRICE_PER_HOUR
+        return amount_for_days + amount_for_hours
 
 
 class Report:
@@ -359,15 +373,15 @@ class Report:
     def get_peak_hours(self):
         peak_hours_report = []
         for time_range, count in self.peak_hour_count.items():
-            peak_hours_report.append(f"Plage {time_range[0]}h-{time_range[1]}h : {count} véhicules")
+            peak_hours_report.append(f"Range {time_range[0]}h-{time_range[1]}h : {count} cars.")
         return peak_hours_report
 
     def display_report(self):
-        print("Rapport quotidien du parking:")
+        print("Daily car park report:")
         for date, count in self.vehicle_count_per_day.items():
-            print(f"{date}: {count} véhicules")
+            print(f"{date}: {count} cars")
 
-        print("\nHeures de pointe:")
+        print("\nPeak times:")
         peak_hours = self.get_peak_hours()
         for report in peak_hours:
             print(report)
