@@ -15,6 +15,9 @@ class Parking:
     It stores also the cars that already been in one time.
     """
 
+    # Définir le seuil d'alerte (10% de places restantes)
+    ALERT_THRESHOLD = 0.1
+
     def __init__(self, cars_in=None, cars_out=None, spaces=None, num_of_floors=4, spaces_per_floor=48):
         """Initializes a new Parking object.
 
@@ -71,6 +74,11 @@ class Parking:
         """
         if self.av_spaces() == 0:
             raise ParkingFull("There are no available spaces in the parking lot.")
+
+        # Si le parking est presque plein, envoie une alerte
+        if self.av_spaces() / self._spaces <= Parking.ALERT_THRESHOLD:
+            self.send_alert()
+
         if plate in list(map(lambda c: c.plate, self._cars_in)):
             raise ValueError(f'Car with plate {plate} already exists.')
 
@@ -104,6 +112,9 @@ class Parking:
         POST: The number of spaces available.
         """
         return self._spaces - len(self._cars_in)
+
+    def send_alert(self):
+        print(f"Alerte : Le parking est presque plein ! Il reste seulement {self.av_spaces()} places disponibles.")
 
     def __str__(self):
         """ Returns a string representation of the Parking object.
