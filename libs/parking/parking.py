@@ -328,7 +328,7 @@ class Report:
         self.peak_time_ranges = [(7, 9), (17, 19)]
         self.peak_hour_count = {range_str: 0 for range_str in self.peak_time_ranges}
 
-    def record_vehicle(self, vehicle_plate, arrival_time, departure_time):
+    def record_vehicle(self, arrival_time):
         date = arrival_time.date()
         if date not in self.vehicle_count_per_day:
             self.vehicle_count_per_day[date] = 0
