@@ -163,7 +163,7 @@ class Ticket:
             POST: The string representation of the Ticket object.
         """
         return f"Car : {self._plate}\n" \
-               f"Arrival : {self._arrival.strftime("%d/%m/%Y à %H:%M:%S")}\n-------------"
+               f"Arrival : {self._arrival.strftime('%d/%m/%Y à %H:%M:%S')}\n-------------"
 
 
 class Car:
