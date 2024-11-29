@@ -90,6 +90,9 @@ def main(args):
     if args.spaces:
         print(parkease)
 
+    if args.report:
+        print("Ajouter Class Report ici")
+
     json_writer(parkease)
 
 
@@ -111,6 +114,7 @@ if __name__ == '__main__':
     parser.add_argument('-m', '--management', nargs=2, type=str, help='First value, the state of the car you want to manage: ["in", "out"], second value, his plate: str')
     parser.add_argument('-s', '--spaces', action='store_true', help='Show how many spaces are available.')
     parser.add_argument('-sub', '--subscription', type=str, help='Requires the plate number of the car for which you want to manipulate the subscription.')
+    parser.add_argument('-r', '--report', action='store_true', help='Generates a report showing the current state of the parking lot at the time the command is executed.')
     args = parser.parse_args()
 
 
