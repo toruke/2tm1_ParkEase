@@ -97,6 +97,11 @@ class Parking:
         self._cars_out.append(car)
         return car.last_ticket.parked_time, car.checkout(), car.sub
 
+    def new_car(self, plate):
+        new_car = Car(plate)
+        self._cars_out.append(new_car)
+        return new_car
+
     def av_spaces(self):
         """ Returns the total number of spaces available in the parking lot.
 

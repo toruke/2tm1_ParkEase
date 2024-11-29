@@ -57,6 +57,20 @@
                 "length": 3,
                 "start": 1732102708.444725
             }
+        },
+        {
+            "plate": "subcar2",
+            "tickets": [
+                {
+                    "plate": "subcar2",
+                    "arrival": 1732868630.677959
+                }
+            ],
+            "sub": {
+                "plate": "subcar2",
+                "length": 1,
+                "start": 1732868599.428059
+            }
         }
     ],
     "spaces": 192

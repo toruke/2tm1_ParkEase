@@ -58,9 +58,12 @@ def main(args):
 
     if args.subscription:
         plate = args.subscription
-        action = my_input(f"--check-- or --add-- a subscription for '{plate}'?", ['add', 'check', 'q'])
+        try:
+            car = list(filter(lambda c: c.plate == plate, parkease.all_cars))[0]
+        except IndexError:
+            car = parkease.new_car(plate)
 
-        car = list(filter(lambda c: c.plate == plate, parkease.all_cars))[0]
+        action = my_input(f"--check-- or --add-- a subscription for '{plate}'?", ['add', 'check', 'q'])
         if action == 'add':
             def my_length():
                 return my_input(
