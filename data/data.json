@@ -57,6 +57,26 @@
                 "length": 3,
                 "start": 1732102708.444725
             }
+        },
+        {
+            "plate": "blalba",
+            "tickets": [
+                {
+                    "plate": "blalba",
+                    "arrival": 1732867752.870833
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "blalba2",
+            "tickets": [
+                {
+                    "plate": "blalba2",
+                    "arrival": 1732867764.475436
+                }
+            ],
+            "sub": null
         }
     ],
     "spaces": 192

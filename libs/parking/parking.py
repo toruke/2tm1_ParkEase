@@ -167,7 +167,7 @@ class Ticket:
             POST: The string representation of the Ticket object.
         """
         return f"Car : {self._plate}\n" \
-               f"Arrival : {self._arrival.strftime("%d/%m/%Y à %H:%M:%S")}\n-------------"
+               f"Arrival : {self._arrival.strftime('%d/%m/%Y à %H:%M:%S')}\n-------------"
 
 
 class Car:
@@ -362,7 +362,7 @@ class Subscription:
             PRE: None.
             POST: The string representation of the Subscription object
         """
-        return f"Plate : {self._plate}\nStart : {self._start.strftime("%d/%m/%Y à %H:%M:%S")}\nEnd : {self.end.strftime("%d/%m/%Y à %H:%M:%S")}"
+        return f"Plate : {self._plate}\nStart : {self._start.strftime('%d/%m/%Y à %H:%M:%S')}\nEnd : {self.end.strftime('%d/%m/%Y à %H:%M:%S')}"
 
 
 class Payment:
