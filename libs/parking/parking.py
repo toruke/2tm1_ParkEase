@@ -172,7 +172,7 @@ class Ticket:
             POST: The string representation of the Ticket object.
         """
         return f"Car : {self._plate}\n" \
-               f"Arrival : {self._arrival.strftime("%d/%m/%Y à %H:%M:%S")}\n-------------"
+               f"Arrival : {self._arrival.strftime('%d/%m/%Y à %H:%M:%S')}\n-------------"
 
 
 class Car:
@@ -255,7 +255,7 @@ class Car:
         if self._sub is None or not self._sub.is_active():
             self._sub = Subscription(self._plate, length)
         else:
-            raise ValueError(f'This car already has a subscription that ends on {self._sub.end.strftime("%d/%m/%Y")}.')
+            raise ValueError(f'This car already has a subscription that ends on {self._sub.end.strftime('%d/%m/%Y')}.')
 
     def extend_sub(self, length):   # in months
         """ Extends the car's subscription to the specified length.
@@ -367,7 +367,7 @@ class Subscription:
             PRE: None.
             POST: The string representation of the Subscription object
         """
-        return f"Plate : {self._plate}\nStart : {self._start.strftime("%d/%m/%Y à %H:%M:%S")}\nEnd : {self.end.strftime("%d/%m/%Y à %H:%M:%S")}"
+        return f"Plate : {self._plate}\nStart : {self._start.strftime('%d/%m/%Y à %H:%M:%S')}\nEnd : {self.end.strftime('%d/%m/%Y à %H:%M:%S')}"
 
 
 class Payment:
@@ -379,6 +379,12 @@ class Payment:
         sub = self._car.sub
         if sub is not None and sub.was_active(ticket.arrival):
             return 0
-        amount_for_days = ticket.parked_time.days * PRICE_PER_DAY
-        amount_for_hours = int(ticket.parked_time.seconds / 3600) * PRICE_PER_HOUR
+        hours = int(ticket.parked_time.seconds / 3600)
+        days = ticket.parked_time.days
+        switch_tariff = int(PRICE_PER_DAY / PRICE_PER_HOUR)
+        if hours > switch_tariff:
+            hours -= switch_tariff
+            days += 1
+        amount_for_days = days * PRICE_PER_DAY
+        amount_for_hours = hours * PRICE_PER_HOUR
         return amount_for_days + amount_for_hours
