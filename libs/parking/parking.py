@@ -374,6 +374,8 @@ class Payment:
     def __init__(self, car):
         self._car = car
 
+    """ !!! rajouter l'achat d'abonnement """
+
     def amount_due(self):
         ticket = self._car.last_ticket
         sub = self._car.sub

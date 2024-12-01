@@ -71,6 +71,24 @@
                 "length": 1,
                 "start": 1732868599.428059
             }
+        },
+        {
+            "plate": "arno",
+            "tickets": [
+                {
+                    "plate": "arno",
+                    "arrival": 1732872241.26405
+                },
+                {
+                    "plate": "arno",
+                    "arrival": 1732872312.956641
+                }
+            ],
+            "sub": {
+                "plate": "arno",
+                "length": 2,
+                "start": 1732872290.474725
+            }
         }
     ],
     "spaces": 192
