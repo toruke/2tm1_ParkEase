@@ -73,16 +73,18 @@ def main(args):
                     my_max=24
                     )
 
+            sub_price = 0
             if car.sub is not None and car.sub.is_active():
                 extend = my_input("A subscription is already active. Would you like to extend it? yes or no", ['yes', 'no'])
                 if extend == 'yes':
-                    car.extend_sub(my_length())
+                    sub_price = car.extend_sub(my_length())
             else:
                 try:
-                    car.add_sub(my_length())
+                    sub_price = car.add_sub(my_length())
                     print("Subscription added.")
                 except Exception as e:
                     print(e)
+            print(f"The amount to be paid is €{sub_price}.")
 
         else:
             if car.sub is not None:

@@ -89,6 +89,29 @@
                 "length": 2,
                 "start": 1732872290.474725
             }
+        },
+        {
+            "plate": "test1",
+            "tickets": [
+                {
+                    "plate": "test1",
+                    "arrival": 1733050407.979487
+                }
+            ],
+            "sub": {
+                "plate": "test1",
+                "length": 8,
+                "start": 1733050440.321844
+            }
+        },
+        {
+            "plate": "test2",
+            "tickets": [],
+            "sub": {
+                "plate": "test2",
+                "length": 3,
+                "start": 1733051507.289581
+            }
         }
     ],
     "spaces": 192

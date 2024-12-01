@@ -243,7 +243,6 @@ class Car:
 
             PRE: The car must have a valid plate number (non-empty string).
             POST: A new Ticket object is created with the car's plate and added to the tickets list.
-            RAISE: ValueError: If the car's plate is invalid (e.g., None or empty string).
         """
         self._tickets.append(Ticket(self._plate))
 
@@ -255,14 +254,13 @@ class Car:
                 -`length` is an integer representing the subscription duration in months.
             POST:
                 -A new subscription is added to the car if there is no active subscription.
-                -If there is an active subscription, a ValueError is raised.
             RAISE:
-                -ValueError if the `length` is not a positive integer.
                 -ValueError if the car already has an active subscription.
 
         """
         if self._sub is None or not self._sub.is_active():
             self._sub = Subscription(self._plate, length)
+            return Payment(self).sub_price(length)
         else:
             raise ValueError(f'This car already has a subscription that ends on {self._sub.end.strftime('%d/%m/%Y')}.')
 
@@ -274,11 +272,9 @@ class Car:
                 -`length` is an integer representing the subscription duration in months.
             POST:
                 -Extends the car's subscription to the specified length.
-            RAISE:
-                -ValueError if `length` is not a positive integer.
-                -AttributeError if there is no active subscription to extend.
         """
         self._sub.extend(length)
+        return Payment(self).sub_price(length)
 
     def checkout(self):
         return Payment(self).amount_due()
@@ -383,7 +379,8 @@ class Payment:
     def __init__(self, car):
         self._car = car
 
-    """ !!! rajouter l'achat d'abonnement """
+    def sub_price(self, length):
+        return length * PRICE_PER_MONTH
 
     def amount_due(self):
         ticket = self._car.last_ticket
@@ -399,6 +396,7 @@ class Payment:
         amount_for_days = days * PRICE_PER_DAY
         amount_for_hours = hours * PRICE_PER_HOUR
         return amount_for_days + amount_for_hours
+
 
 class Report:
     """ Class for generating detailed reports on car park occupancy """
