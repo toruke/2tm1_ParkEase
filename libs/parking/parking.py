@@ -4,6 +4,8 @@ from ..my_datetime import *
 PRICE_PER_HOUR = 2
 PRICE_PER_DAY = 12
 PRICE_PER_MONTH = 100
+# Define the alert threshold (10% of places remaining)
+ALERT_THRESHOLD = 0.1
 
 
 class ParkingFull(Exception):
@@ -74,6 +76,10 @@ class Parking:
         if plate in list(map(lambda c: c.plate, self._cars_in)):
             raise ValueError(f'Car with plate {plate} already exists.')
 
+        # If the car park is almost full, send an alert
+        if self.av_spaces() / self._spaces <= ALERT_THRESHOLD:
+            self.send_alert()
+
         if plate in list(map(lambda c: c.plate, self._cars_out)):
             car = list(filter(lambda c: c.plate == plate, self._cars_out))[0]
             self._cars_out.remove(car)
@@ -109,6 +115,9 @@ class Parking:
         POST: The number of spaces available.
         """
         return self._spaces - len(self._cars_in)
+
+    def send_alert(self):
+        print(f"Alert: The car park is almost full! There are only {self.av_spaces()} spaces available.")
 
     def __str__(self):
         """ Returns a string representation of the Parking object.
@@ -390,3 +399,47 @@ class Payment:
         amount_for_days = days * PRICE_PER_DAY
         amount_for_hours = hours * PRICE_PER_HOUR
         return amount_for_days + amount_for_hours
+
+class Report:
+    """ Class for generating detailed reports on car park occupancy """
+
+    def __init__(self, parking):
+        """ Initialise the relationship with the Parking object. """
+        self.parking = parking
+        self.vehicle_count_per_day = {}
+        self.peak_hours = []
+        # Time slots defined for peak periods
+        self.peak_time_ranges = [(7, 9), (17, 19)]
+        self.peak_hour_count = {range_str: 0 for range_str in self.peak_time_ranges}
+
+    def record_vehicle(self, arrival_time):
+        date = arrival_time.date()
+        if date not in self.vehicle_count_per_day:
+            self.vehicle_count_per_day[date] = 0
+        self.vehicle_count_per_day[date] += 1
+
+        self._detect_peak_hours(arrival_time)
+
+    def _detect_peak_hours(self, arrival_time):
+        for start_hour, end_hour in self.peak_time_ranges:
+            if start_hour <= arrival_time.hour < end_hour:
+                self.peak_hour_count[(start_hour, end_hour)] += 1
+
+    def get_daily_report(self):
+        return self.vehicle_count_per_day
+
+    def get_peak_hours(self):
+        peak_hours_report = []
+        for time_range, count in self.peak_hour_count.items():
+            peak_hours_report.append(f"Range {time_range[0]}h-{time_range[1]}h : {count} cars.")
+        return peak_hours_report
+
+    def display_report(self):
+        print("Daily car park report:")
+        for date, count in self.vehicle_count_per_day.items():
+            print(f"{date}: {count} cars")
+
+        print("\nPeak times:")
+        peak_hours = self.get_peak_hours()
+        for report in peak_hours:
+            print(report)
