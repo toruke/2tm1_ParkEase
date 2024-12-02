@@ -4,6 +4,8 @@ from ..my_datetime import *
 PRICE_PER_HOUR = 2
 PRICE_PER_DAY = 12
 PRICE_PER_MONTH = 100
+# Define the alert threshold (10% of places remaining)
+ALERT_THRESHOLD = 0.1
 
 
 class ParkingFull(Exception):
@@ -74,6 +76,10 @@ class Parking:
         if plate in list(map(lambda c: c.plate, self._cars_in)):
             raise ValueError(f'Car with plate {plate} already exists.')
 
+        # If the car park is almost full, send an alert
+        if self.av_spaces() / self._spaces <= ALERT_THRESHOLD:
+            self.send_alert()
+
         if plate in list(map(lambda c: c.plate, self._cars_out)):
             car = list(filter(lambda c: c.plate == plate, self._cars_out))[0]
             self._cars_out.remove(car)
@@ -97,6 +103,11 @@ class Parking:
         self._cars_out.append(car)
         return car.last_ticket.parked_time, car.checkout(), car.sub
 
+    def new_car(self, plate):
+        new_car = Car(plate)
+        self._cars_out.append(new_car)
+        return new_car
+
     def av_spaces(self):
         """ Returns the total number of spaces available in the parking lot.
 
@@ -104,6 +115,9 @@ class Parking:
         POST: The number of spaces available.
         """
         return self._spaces - len(self._cars_in)
+
+    def send_alert(self):
+        print(f"Alert: The car park is almost full! There are only {self.av_spaces()} spaces available.")
 
     def __str__(self):
         """ Returns a string representation of the Parking object.
@@ -229,7 +243,6 @@ class Car:
 
             PRE: The car must have a valid plate number (non-empty string).
             POST: A new Ticket object is created with the car's plate and added to the tickets list.
-            RAISE: ValueError: If the car's plate is invalid (e.g., None or empty string).
         """
         self._tickets.append(Ticket(self._plate))
 
@@ -241,16 +254,15 @@ class Car:
                 -`length` is an integer representing the subscription duration in months.
             POST:
                 -A new subscription is added to the car if there is no active subscription.
-                -If there is an active subscription, a ValueError is raised.
             RAISE:
-                -ValueError if the `length` is not a positive integer.
                 -ValueError if the car already has an active subscription.
 
         """
         if self._sub is None or not self._sub.is_active():
             self._sub = Subscription(self._plate, length)
+            return Payment(self).sub_price(length)
         else:
-            raise ValueError(f'This car already has a subscription that ends on {self._sub.end.strftime("%d/%m/%Y")}.')
+            raise ValueError(f'This car already has a subscription that ends on {self._sub.end.strftime('%d/%m/%Y')}.')
 
     def extend_sub(self, length):   # in months
         """ Extends the car's subscription to the specified length.
@@ -260,11 +272,9 @@ class Car:
                 -`length` is an integer representing the subscription duration in months.
             POST:
                 -Extends the car's subscription to the specified length.
-            RAISE:
-                -ValueError if `length` is not a positive integer.
-                -AttributeError if there is no active subscription to extend.
         """
         self._sub.extend(length)
+        return Payment(self).sub_price(length)
 
     def checkout(self):
         return Payment(self).amount_due()
@@ -369,11 +379,65 @@ class Payment:
     def __init__(self, car):
         self._car = car
 
+    def sub_price(self, length):
+        return length * PRICE_PER_MONTH
+
     def amount_due(self):
         ticket = self._car.last_ticket
         sub = self._car.sub
         if sub is not None and sub.was_active(ticket.arrival):
             return 0
-        amount_for_days = ticket.parked_time.days * PRICE_PER_DAY
-        amount_for_hours = int(ticket.parked_time.seconds / 3600) * PRICE_PER_HOUR
+        hours = int(ticket.parked_time.seconds / 3600)
+        days = ticket.parked_time.days
+        switch_tariff = int(PRICE_PER_DAY / PRICE_PER_HOUR)
+        if hours > switch_tariff:
+            hours -= switch_tariff
+            days += 1
+        amount_for_days = days * PRICE_PER_DAY
+        amount_for_hours = hours * PRICE_PER_HOUR
         return amount_for_days + amount_for_hours
+
+
+class Report:
+    """ Class for generating detailed reports on car park occupancy """
+
+    def __init__(self, parking):
+        """ Initialise the relationship with the Parking object. """
+        self.parking = parking
+        self.vehicle_count_per_day = {}
+        self.peak_hours = []
+        # Time slots defined for peak periods
+        self.peak_time_ranges = [(7, 9), (17, 19)]
+        self.peak_hour_count = {range_str: 0 for range_str in self.peak_time_ranges}
+
+    def record_vehicle(self, arrival_time):
+        date = arrival_time.date()
+        if date not in self.vehicle_count_per_day:
+            self.vehicle_count_per_day[date] = 0
+        self.vehicle_count_per_day[date] += 1
+
+        self._detect_peak_hours(arrival_time)
+
+    def _detect_peak_hours(self, arrival_time):
+        for start_hour, end_hour in self.peak_time_ranges:
+            if start_hour <= arrival_time.hour < end_hour:
+                self.peak_hour_count[(start_hour, end_hour)] += 1
+
+    def get_daily_report(self):
+        return self.vehicle_count_per_day
+
+    def get_peak_hours(self):
+        peak_hours_report = []
+        for time_range, count in self.peak_hour_count.items():
+            peak_hours_report.append(f"Range {time_range[0]}h-{time_range[1]}h : {count} cars.")
+        return peak_hours_report
+
+    def display_report(self):
+        print("Daily car park report:")
+        for date, count in self.vehicle_count_per_day.items():
+            print(f"{date}: {count} cars")
+
+        print("\nPeak times:")
+        peak_hours = self.get_peak_hours()
+        for report in peak_hours:
+            print(report)
