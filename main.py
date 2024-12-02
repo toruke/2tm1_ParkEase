@@ -1,18 +1,18 @@
 from libs.file_mngt import *
 from libs.parking import *
 import argparse
+import tkinter as tk
+from tkinter import simpledialog, messagebox
 
 def gui():
-    import tkinter as tk
-    from tkinter import simpledialog, messagebox
 
     # Créer la fenêtre principale
     fenetre = tk.Tk()
-    fenetre.title("Ma première interface")
+    fenetre.title("ParkEase")
     fenetre.attributes("-fullscreen", False)
 
     # Ajouter un label
-    label = tk.Label(fenetre, text="Bonjour, monde !")
+    label = tk.Label(fenetre, text="Bienvenue dans le Parking ! \n Veuillez introduire votre plaque : ")
     label.pack()
 
     # Définir la taille de la fenêtre
@@ -42,7 +42,7 @@ def gui():
         label_resultat.config(text=f"la plaque : {texte} a bien été ajouter")
 
     # Premier bouton
-    bouton1 = tk.Button(fenetre, text="Bouton 1", command=on_click, bg="red", fg="white")
+    bouton1 = tk.Button(fenetre, text="Mode plein écran", command=on_click, bg="red", fg="white")
     bouton1.pack(pady=10)  # Placer le bouton avec un espacement vertical
     bouton1.place(x=50, y=50, width=200, height=100)
 
@@ -51,7 +51,9 @@ def gui():
     champ_texte.pack(pady=10)
 
     # Bouton de validation
-    bouton = tk.Button(fenetre, text="Valider", command=valider)
+    bouton = tk.Button(
+        fenetre, text="Valider", command=valider, bg="red", fg="white", width=20, height=2
+    )
     bouton.pack(pady=10)
 
     # Label pour afficher le résultat
@@ -116,12 +118,9 @@ def main(args):
 
     if args.subscription:
         plate = args.subscription
-        try:
-            car = list(filter(lambda c: c.plate == plate, parkease.all_cars))[0]
-        except IndexError:
-            car = parkease.new_car(plate)
-
         action = my_input(f"--check-- or --add-- a subscription for '{plate}'?", ['add', 'check', 'q'])
+
+        car = list(filter(lambda c: c.plate == plate, parkease.all_cars))[0]
         if action == 'add':
             def my_length():
                 return my_input(
@@ -131,18 +130,16 @@ def main(args):
                     my_max=24
                     )
 
-            sub_price = 0
             if car.sub is not None and car.sub.is_active():
                 extend = my_input("A subscription is already active. Would you like to extend it? yes or no", ['yes', 'no'])
                 if extend == 'yes':
-                    sub_price = car.extend_sub(my_length())
+                    car.extend_sub(my_length())
             else:
                 try:
-                    sub_price = car.add_sub(my_length())
+                    car.add_sub(my_length())
                     print("Subscription added.")
                 except Exception as e:
                     print(e)
-            print(f"The amount to be paid is €{sub_price}.")
 
         else:
             if car.sub is not None:
@@ -152,6 +149,9 @@ def main(args):
 
     if args.spaces:
         print(parkease)
+
+    if args.report:
+        print("Ajouter Class Report ici")
 
     json_writer(parkease)
 
@@ -174,6 +174,7 @@ if __name__ == '__main__':
     parser.add_argument('-m', '--management', nargs=2, type=str, help='First value, the state of the car you want to manage: ["in", "out"], second value, his plate: str')
     parser.add_argument('-s', '--spaces', action='store_true', help='Show how many spaces are available.')
     parser.add_argument('-sub', '--subscription', type=str, help='Requires the plate number of the car for which you want to manipulate the subscription.')
+    parser.add_argument('-r', '--report', action='store_true', help='Generates a report showing the current state of the parking lot at the time the command is executed.')
     args = parser.parse_args()
 
 
