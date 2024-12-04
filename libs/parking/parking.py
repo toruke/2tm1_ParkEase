@@ -262,7 +262,7 @@ class Car:
             self._sub = Subscription(self._plate, length)
             return Payment(self).sub_price(length)
         else:
-            raise ValueError(f'This car already has a subscription that ends on {self._sub.end.strftime('%d/%m/%Y')}.')
+            raise ValueError(f'This car already has a subscription that ends on {self._sub.end.strftime("%d/%m/%Y")}.')
 
     def extend_sub(self, length):   # in months
         """ Extends the car's subscription to the specified length.
@@ -441,3 +441,81 @@ class Report:
         peak_hours = self.get_peak_hours()
         for report in peak_hours:
             print(report)
+
+    def __str__(self):
+
+        pass
+
+class Gui:
+    def __init__(self):
+        """crée une instance qui permet d'encoder un nombre indéfinit de plaque
+            PRE:
+            POST:
+        """
+
+        pass
+
+    """Ancien fonction de gui
+    import tkinter as tk
+from tkinter import simpledialog, messagebox
+
+def gui():
+
+    # Créer la fenêtre principale
+    fenetre = tk.Tk()
+    fenetre.title("ParkEase")
+    fenetre.attributes("-fullscreen", False)
+
+    # Ajouter un label
+    label = tk.Label(fenetre, text="Bienvenue dans le Parking ! \n Veuillez introduire votre plaque : ")
+    label.pack()
+
+    # Définir la taille de la fenêtre
+    largeur_fenetre = 1400
+    hauteur_fenetre = 1050
+
+    # Obtenir les dimensions de l'écran
+    largeur_ecran = fenetre.winfo_screenwidth()
+    hauteur_ecran = fenetre.winfo_screenheight()
+
+    # Calculer les coordonnées pour centrer la fenêtre
+    x = (largeur_ecran // 2) - (largeur_fenetre // 2)
+    y = (hauteur_ecran // 2) - (hauteur_fenetre // 2)
+
+    # Appliquer la géométrie pour centrer
+    fenetre.geometry(f"{largeur_fenetre}x{hauteur_fenetre}+{x}+{y}")
+
+    # Ajouter un bouton
+    def on_click():
+        if fenetre.attributes("-fullscreen"):
+            fenetre.attributes("-fullscreen", False)
+        else:
+            fenetre.attributes("-fullscreen", True)
+
+    def valider():
+        texte = champ_texte.get()
+        label_resultat.config(text=f"la plaque : {texte} a bien été ajouter")
+
+    # Premier bouton
+    bouton1 = tk.Button(fenetre, text="Mode plein écran", command=on_click, bg="red", fg="white")
+    bouton1.pack(pady=10)  # Placer le bouton avec un espacement vertical
+    bouton1.place(x=50, y=50, width=200, height=100)
+
+    # Champ de saisie
+    champ_texte = tk.Entry(fenetre)
+    champ_texte.pack(pady=10)
+
+    # Bouton de validation
+    bouton = tk.Button(
+        fenetre, text="Valider", command=valider, bg="red", fg="white", width=20, height=2
+    )
+    bouton.pack(pady=10)
+
+    # Label pour afficher le résultat
+    label_resultat = tk.Label(fenetre, text="", fg="blue")
+    label_resultat.pack(pady=10)
+
+    # Lancer la boucle principale
+    fenetre.mainloop()
+
+    """
