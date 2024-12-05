@@ -37,6 +37,13 @@ class Parking:
     def all_cars(self):
         return self._cars_in + self._cars_out
 
+    @property
+    def get_all_tickets(self):
+        all_tickets = []
+        for car in self._cars_in + self._cars_out:
+            all_tickets += car.tickets
+        return all_tickets
+
     @classmethod
     def from_dict(cls, data):
         """ Transforms a dictionary into a Parking object.
@@ -212,6 +219,10 @@ class Car:
     @property
     def last_ticket(self):
         return self._tickets[-1]
+
+    @property
+    def tickets(self):
+        return self._tickets
 
     @classmethod
     def from_dict(cls, data):
@@ -403,41 +414,25 @@ class Report:
 
     def __init__(self, parking):
         """ Initialise the relationship with the Parking object. """
-        self.parking = parking
-        self.vehicle_count_per_day = {}
-        self.peak_hours = []
-        # Time slots defined for peak periods
-        self.peak_time_ranges = [(7, 9), (17, 19)]
-        self.peak_hour_count = {range_str: 0 for range_str in self.peak_time_ranges}
+        self._parking = parking
+        self._vehicle_count_per_day = {}
+        self._peak_hours = {}
 
-    def record_vehicle(self, arrival_time):
+    def add_data(self):
+        tickets = self._parking.get_all_tickets
+        for ticket in tickets:
+            self.record_vehicle(ticket.arrival)
+
+    def record_vehicle(self, arrival_time:datetime):
         date = arrival_time.date()
-        if date not in self.vehicle_count_per_day:
-            self.vehicle_count_per_day[date] = 0
-        self.vehicle_count_per_day[date] += 1
+        if date not in self._vehicle_count_per_day:
+            self._vehicle_count_per_day[date] = 0
+        self._vehicle_count_per_day[date] += 1
 
-        self._detect_peak_hours(arrival_time)
-
-    def _detect_peak_hours(self, arrival_time):
-        for start_hour, end_hour in self.peak_time_ranges:
-            if start_hour <= arrival_time.hour < end_hour:
-                self.peak_hour_count[(start_hour, end_hour)] += 1
+        hour = arrival_time.hour
+        if hour not in self._peak_hours:
+            self._peak_hours[hour] = 0
+        self._peak_hours[hour] += 1
 
     def get_daily_report(self):
-        return self.vehicle_count_per_day
-
-    def get_peak_hours(self):
-        peak_hours_report = []
-        for time_range, count in self.peak_hour_count.items():
-            peak_hours_report.append(f"Range {time_range[0]}h-{time_range[1]}h : {count} cars.")
-        return peak_hours_report
-
-    def display_report(self):
-        print("Daily car park report:")
-        for date, count in self.vehicle_count_per_day.items():
-            print(f"{date}: {count} cars")
-
-        print("\nPeak times:")
-        peak_hours = self.get_peak_hours()
-        for report in peak_hours:
-            print(report)
+        return self._vehicle_count_per_day , self._peak_hours
