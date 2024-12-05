@@ -21,15 +21,6 @@
     ],
     "cars_out": [
         {
-            "plate": "tot111",
-            "tickets": [],
-            "sub": {
-                "plate": "tot111",
-                "length": 2,
-                "start": 1732102708.444725
-            }
-        },
-        {
             "plate": "DKS028",
             "tickets": [
                 {
@@ -51,6 +42,75 @@
                 "plate": "aze000",
                 "length": 3,
                 "start": 1732739497.679869
+            }
+        },
+        {
+            "plate": "tot111",
+            "tickets": [
+                {
+                    "plate": "tot111",
+                    "arrival": 1732864799.503722
+                }
+            ],
+            "sub": {
+                "plate": "tot111",
+                "length": 3,
+                "start": 1732102708.444725
+            }
+        },
+        {
+            "plate": "subcar2",
+            "tickets": [
+                {
+                    "plate": "subcar2",
+                    "arrival": 1732868630.677959
+                }
+            ],
+            "sub": {
+                "plate": "subcar2",
+                "length": 1,
+                "start": 1732868599.428059
+            }
+        },
+        {
+            "plate": "arno",
+            "tickets": [
+                {
+                    "plate": "arno",
+                    "arrival": 1732872241.26405
+                },
+                {
+                    "plate": "arno",
+                    "arrival": 1732872312.956641
+                }
+            ],
+            "sub": {
+                "plate": "arno",
+                "length": 2,
+                "start": 1732872290.474725
+            }
+        },
+        {
+            "plate": "test1",
+            "tickets": [
+                {
+                    "plate": "test1",
+                    "arrival": 1733050407.979487
+                }
+            ],
+            "sub": {
+                "plate": "test1",
+                "length": 8,
+                "start": 1733050440.321844
+            }
+        },
+        {
+            "plate": "test2",
+            "tickets": [],
+            "sub": {
+                "plate": "test2",
+                "length": 3,
+                "start": 1733051507.289581
             }
         }
     ],

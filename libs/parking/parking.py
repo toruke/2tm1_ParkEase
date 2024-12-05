@@ -4,6 +4,8 @@ from ..my_datetime import *
 PRICE_PER_HOUR = 2
 PRICE_PER_DAY = 12
 PRICE_PER_MONTH = 100
+# Define the alert threshold (10% of places remaining)
+ALERT_THRESHOLD = 0.1
 
 
 class ParkingFull(Exception):
@@ -14,9 +16,6 @@ class Parking:
     """ Represents an entire parking lot, including the available spaces and the cars it contains.
     It stores also the cars that already been in one time.
     """
-
-    # Définir le seuil d'alerte (10% de places restantes)
-    ALERT_THRESHOLD = 0.1
 
     def __init__(self, cars_in=None, cars_out=None, spaces=None, num_of_floors=4, spaces_per_floor=48):
         """Initializes a new Parking object.
@@ -74,13 +73,12 @@ class Parking:
         """
         if self.av_spaces() == 0:
             raise ParkingFull("There are no available spaces in the parking lot.")
-
-        # Si le parking est presque plein, envoie une alerte
-        if self.av_spaces() / self._spaces <= Parking.ALERT_THRESHOLD:
-            self.send_alert()
-
         if plate in list(map(lambda c: c.plate, self._cars_in)):
             raise ValueError(f'Car with plate {plate} already exists.')
+
+        # If the car park is almost full, send an alert
+        if self.av_spaces() / self._spaces <= ALERT_THRESHOLD:
+            self.send_alert()
 
         if plate in list(map(lambda c: c.plate, self._cars_out)):
             car = list(filter(lambda c: c.plate == plate, self._cars_out))[0]
@@ -88,8 +86,7 @@ class Parking:
         else:
             car = Car(plate)
 
-        if not car.sub.is_active():
-            car.add_ticket()
+        car.add_ticket()
         self._cars_in.append(car)
 
     def rmv_car(self, plate):
@@ -104,6 +101,12 @@ class Parking:
         car = list(filter(lambda c: c.plate == plate, self._cars_in))[0]
         self._cars_in.remove(car)
         self._cars_out.append(car)
+        return car.last_ticket.parked_time, car.checkout(), car.sub
+
+    def new_car(self, plate):
+        new_car = Car(plate)
+        self._cars_out.append(new_car)
+        return new_car
 
     def av_spaces(self):
         """ Returns the total number of spaces available in the parking lot.
@@ -114,7 +117,7 @@ class Parking:
         return self._spaces - len(self._cars_in)
 
     def send_alert(self):
-        print(f"Alerte : Le parking est presque plein ! Il reste seulement {self.av_spaces()} places disponibles.")
+        print(f"Alert: The car park is almost full! There are only {self.av_spaces()} spaces available.")
 
     def __str__(self):
         """ Returns a string representation of the Parking object.
@@ -127,10 +130,8 @@ class Parking:
 
 class Ticket:
     def __init__(self, plate, arrival=None):
-        self._plate = plate
-        self._arrival = datetime.now() if arrival is None else arrival
         """ Initializes a new Ticket object.
-                
+
             PRE:
                 -The plate of the car (must be a non-empty string).
                 -`arrival` must be a datetime object.
@@ -139,10 +140,16 @@ class Ticket:
                 -ValueError if the plate is not a non-empty string.
                 -ValueError if the arrival is not a datetime object
         """
+        self._plate = plate
+        self._arrival = datetime.now() if arrival is None else arrival
 
     @property
     def arrival(self):
         return self._arrival
+
+    @property
+    def parked_time(self):
+        return datetime.now() - self._arrival
 
     @classmethod
     def from_dict(cls, data):
@@ -179,9 +186,6 @@ class Ticket:
 
 class Car:
     def __init__(self, plate, tickets=None, sub=None):
-        self._plate = plate
-        self._tickets = [] if tickets is None else tickets
-        self._sub = sub
         """Initializes a new Car object.
 
                PRE:
@@ -189,10 +193,13 @@ class Car:
                    - A list of Ticket objects associated with the car or None (default: empty list).
                    - The subscription associated with the car (default None).
                POST: A Car object is initialized with the specified or default values.
-               RAISE: 
+               RAISE:
                    - TypeError if plate is not a string or tickets is not a list.
                    - ValueError if plate is an empty string.
         """
+        self._plate = plate
+        self._tickets = [] if tickets is None else tickets
+        self._sub = sub
 
     @property
     def plate(self):
@@ -201,6 +208,10 @@ class Car:
     @property
     def sub(self):
         return self._sub
+
+    @property
+    def last_ticket(self):
+        return self._tickets[-1]
 
     @classmethod
     def from_dict(cls, data):
@@ -228,56 +239,55 @@ class Car:
         }
 
     def add_ticket(self):
-        self._tickets.append(Ticket(self._plate))
         """ Adds a ticket to the car object.
 
-                PRE: The car must have a valid plate number (non-empty string).
-                POST: A new Ticket object is created with the car's plate and added to the tickets list.
-                RAISE: ValueError: If the car's plate is invalid (e.g., None or empty string).   
+            PRE: The car must have a valid plate number (non-empty string).
+            POST: A new Ticket object is created with the car's plate and added to the tickets list.
         """
+        self._tickets.append(Ticket(self._plate))
 
     def add_sub(self, length):  # in months
+        """ Adds a subscription to the car object.
+
+            PRE:
+                -The car may or may not already have a subscription.
+                -`length` is an integer representing the subscription duration in months.
+            POST:
+                -A new subscription is added to the car if there is no active subscription.
+            RAISE:
+                -ValueError if the car already has an active subscription.
+
+        """
         if self._sub is None or not self._sub.is_active():
             self._sub = Subscription(self._plate, length)
+            return Payment(self).sub_price(length)
         else:
-            raise ValueError(f'This car already has a subscription that ends on {self._sub.end.strftime("%d/%m/%Y")}.')
-        """ Adds a subscription to the car object.
-        
-                PRE: 
-                    -The car may or may not already have a subscription.
-                    -`length` is an integer representing the subscription duration in months.
-                POST: 
-                    -A new subscription is added to the car if there is no active subscription.
-                    -If there is an active subscription, a ValueError is raised.
-                RAISE:
-                    -ValueError if the `length` is not a positive integer.
-                    -ValueError if the car already has an active subscription.
-                
-        """
+            raise ValueError(f'This car already has a subscription that ends on {self._sub.end.strftime('%d/%m/%Y')}.')
 
     def extend_sub(self, length):   # in months
-        self._sub.extend(length)
         """ Extends the car's subscription to the specified length.
-            
-                PRE:
-                    -The car must have an existing subscription.
-                    -`length` is an integer representing the subscription duration in months.
-                POST: 
-                    -Extends the car's subscription to the specified length.
-                RAISE: 
-                    -ValueError if `length` is not a positive integer.
-                    -AttributeError if there is no active subscription to extend.
+
+            PRE:
+                -The car must have an existing subscription.
+                -`length` is an integer representing the subscription duration in months.
+            POST:
+                -Extends the car's subscription to the specified length.
         """
+        self._sub.extend(length)
+        return Payment(self).sub_price(length)
+
+    def checkout(self):
+        return Payment(self).amount_due()
 
     def __str__(self):
+        """ Returns a string representation of the Car object.
+
+            PRE: None.
+            POST: The string representation of the Car object.
+        """
         txt = f"Plate : {self._plate}\nTickets :\n"
         for ticket in self._tickets:
             txt += f"{ticket.__str__()}\n"
-        """ Returns a string representation of the Car object.
-
-                PRE: None.
-                POST: The string representation of the Car object.
-        """
         return txt
 
 
@@ -287,6 +297,14 @@ class Subscription:
     !!! Note that here the datetime class is replaced by its MyDateTime subclass, which has the add_months() method.
     """
     def __init__(self, plate, length=1, start=None):
+        """Initialize a new Subscription object.
+
+            PRE:
+                - The plate of the car (must be a non-empty string).
+                - The number of months for the subscription
+                - The start of they object subscription
+            POST: a Subscribe object are initialized with the specified or default values.
+        """
         self._plate = plate
         self._length = length  # in months
         self._start = MyDateTime.now() if start is None else start
@@ -301,6 +319,11 @@ class Subscription:
 
     @classmethod
     def from_dict(cls, data):
+        """ Transforms a dictionary into a Subscription Object.
+
+            PRE: data is a dictionary with key-value pairs.
+            POST: the dictionary object is initialized with the specified or default values.
+        """
         return cls(
             data['plate'],
             data['length'],
@@ -308,6 +331,11 @@ class Subscription:
         )
 
     def to_dict(self):
+        """ Transforms a Subscription object to a dictionary
+
+            PRE: None.
+            POST: The dictionary representation of the Subscription object.
+        """
         return {
             "plate": self._plate,
             "length": self._length,
@@ -315,28 +343,70 @@ class Subscription:
         }
 
     def is_active(self):
+        """ Check if the Subscription is active.
+
+            PRE: None.
+            POST: return true false if the Subscription is active.
+        """
         return datetime.now() < self.end
 
+    def was_active(self, date):
+        """ Check if the Subscription was active at the specified date.
+
+            PRE: date is a datetime.
+            POST: return true if the Subscription was active at the specified date.
+        """
+        return date < self.end
+
     def extend(self, length):   # in months
+        """ Increase the time of the subscription.
+
+            PRE: length is an int
+            POST: add time to the property length
+        """
         self._length += length
 
     def __str__(self):
-        return f"Plate : {self._plate}\nStart : {self._start.strftime("%d/%m/%Y à %H:%M:%S")}\nEnd : {self.end.strftime("%d/%m/%Y à %H:%M:%S")}"
+        """ Returns a string representation of the Subscription object.
+
+            PRE: None.
+            POST: The string representation of the Subscription object
+        """
+        return f"Plate : {self._plate}\nStart : {self._start.strftime('%d/%m/%Y à %H:%M:%S')}\nEnd : {self.end.strftime('%d/%m/%Y à %H:%M:%S')}"
 
 
 class Payment:
-    pass
+    def __init__(self, car):
+        self._car = car
+
+    def sub_price(self, length):
+        return length * PRICE_PER_MONTH
+
+    def amount_due(self):
+        ticket = self._car.last_ticket
+        sub = self._car.sub
+        if sub is not None and sub.was_active(ticket.arrival):
+            return 0
+        hours = int(ticket.parked_time.seconds / 3600)
+        days = ticket.parked_time.days
+        switch_tariff = int(PRICE_PER_DAY / PRICE_PER_HOUR)
+        if hours > switch_tariff:
+            hours -= switch_tariff
+            days += 1
+        amount_for_days = days * PRICE_PER_DAY
+        amount_for_hours = hours * PRICE_PER_HOUR
+        return amount_for_days + amount_for_hours
 
 
 class Report:
-    """ Classe pour générer des rapports détaillés sur l'occupation du parking """
+    """ Class for generating detailed reports on car park occupancy """
 
     def __init__(self, parking):
-        """Initialisation du rapport avec l'objet Parking."""
+        """ Initialise the relationship with the Parking object. """
         self.parking = parking
         self.vehicle_count_per_day = {}
         self.peak_hours = []
-        # Plages horaires définies pour les heures de pointe
+        # Time slots defined for peak periods
         self.peak_time_ranges = [(7, 9), (17, 19)]
         self.peak_hour_count = {range_str: 0 for range_str in self.peak_time_ranges}
 
@@ -359,15 +429,15 @@ class Report:
     def get_peak_hours(self):
         peak_hours_report = []
         for time_range, count in self.peak_hour_count.items():
-            peak_hours_report.append(f"Plage {time_range[0]}h-{time_range[1]}h : {count} véhicules")
+            peak_hours_report.append(f"Range {time_range[0]}h-{time_range[1]}h : {count} cars.")
         return peak_hours_report
 
     def display_report(self):
-        print("Rapport quotidien du parking:")
+        print("Daily car park report:")
         for date, count in self.vehicle_count_per_day.items():
-            print(f"{date}: {count} véhicules")
+            print(f"{date}: {count} cars")
 
-        print("\nHeures de pointe:")
+        print("\nPeak times:")
         peak_hours = self.get_peak_hours()
         for report in peak_hours:
             print(report)
