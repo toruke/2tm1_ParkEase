@@ -436,3 +436,23 @@ class Report:
 
     def get_daily_report(self):
         return self._vehicle_count_per_day , self._peak_hours
+
+    def __str__(self):
+        peak_days = []
+        peak_hours = []
+
+        max_day = max(self._vehicle_count_per_day.values())
+        for day in self._vehicle_count_per_day.keys():
+            if self._vehicle_count_per_day[day] == max_day:
+                peak_days.append(day)
+
+        max_hour = max(self._peak_hours.values())
+        for hour in self._peak_hours.keys():
+            if self._peak_hours[hour] == max_hour:
+                peak_hours.append(hour)
+
+        return f"The busiest days for the parking lot are: {peak_days}.\n The peak hours of the parking lot are: {peak_hours}."
+
+
+
+
