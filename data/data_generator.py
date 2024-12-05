@@ -2,6 +2,9 @@ from datetime import datetime, timedelta
 import random
 import json
 
+CARS_IN = 50
+CARS_OUT = 50
+
 # Helper functions to generate random timestamps and plates
 def random_plate():
     letters = ''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZ', k=3))
@@ -20,12 +23,12 @@ end_date = datetime.now()
 # Generate 100 car entries
 cars_in = []
 cars_out = []
-for _ in range(50):  # 50 cars_in entries
+for _ in range(CARS_IN):  # 50 cars_in entries
     plate = random_plate()
     tickets = [{"plate": plate, "arrival": random_timestamp(start_date, end_date)} for _ in range(random.randint(1, 3))]
     cars_in.append({"plate": plate, "tickets": tickets, "sub": None})
 
-for _ in range(50):  # 50 cars_out entries
+for _ in range(CARS_OUT):  # 50 cars_out entries
     plate = random_plate()
     tickets = [{"plate": plate, "arrival": random_timestamp(start_date, end_date)} for _ in range(random.randint(0, 2))]
     sub = None
