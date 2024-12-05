@@ -1,4 +1,6 @@
 from ..my_datetime import *
+import tkinter as tk
+from tkinter import simpledialog, messagebox
 
 # car park rates in euros
 PRICE_PER_HOUR = 2
@@ -36,6 +38,13 @@ class Parking:
     @property
     def all_cars(self):
         return self._cars_in + self._cars_out
+
+    @property
+    def get_all_tickets(self):
+        all_tickets = []
+        for car in self._cars_in + self._cars_out:
+            all_tickets += car.tickets
+        return all_tickets
 
     @classmethod
     def from_dict(cls, data):
@@ -212,6 +221,10 @@ class Car:
     @property
     def last_ticket(self):
         return self._tickets[-1]
+
+    @property
+    def tickets(self):
+        return self._tickets
 
     @classmethod
     def from_dict(cls, data):
@@ -403,119 +416,127 @@ class Report:
 
     def __init__(self, parking):
         """ Initialise the relationship with the Parking object. """
-        self.parking = parking
-        self.vehicle_count_per_day = {}
-        self.peak_hours = []
-        # Time slots defined for peak periods
-        self.peak_time_ranges = [(7, 9), (17, 19)]
-        self.peak_hour_count = {range_str: 0 for range_str in self.peak_time_ranges}
+        self._parking = parking
+        self._vehicle_count_per_day = {}
+        self._peak_hours = {}
 
-    def record_vehicle(self, arrival_time):
+    def add_data(self):
+        tickets = self._parking.get_all_tickets
+        for ticket in tickets:
+            self.record_vehicle(ticket.arrival)
+
+    def record_vehicle(self, arrival_time:datetime):
         date = arrival_time.date()
-        if date not in self.vehicle_count_per_day:
-            self.vehicle_count_per_day[date] = 0
-        self.vehicle_count_per_day[date] += 1
+        if date not in self._vehicle_count_per_day:
+            self._vehicle_count_per_day[date] = 0
+        self._vehicle_count_per_day[date] += 1
 
-        self._detect_peak_hours(arrival_time)
-
-    def _detect_peak_hours(self, arrival_time):
-        for start_hour, end_hour in self.peak_time_ranges:
-            if start_hour <= arrival_time.hour < end_hour:
-                self.peak_hour_count[(start_hour, end_hour)] += 1
+        hour = arrival_time.hour
+        if hour not in self._peak_hours:
+            self._peak_hours[hour] = 0
+        self._peak_hours[hour] += 1
 
     def get_daily_report(self):
-        return self.vehicle_count_per_day
-
-    def get_peak_hours(self):
-        peak_hours_report = []
-        for time_range, count in self.peak_hour_count.items():
-            peak_hours_report.append(f"Range {time_range[0]}h-{time_range[1]}h : {count} cars.")
-        return peak_hours_report
-
-    def display_report(self):
-        print("Daily car park report:")
-        for date, count in self.vehicle_count_per_day.items():
-            print(f"{date}: {count} cars")
-
-        print("\nPeak times:")
-        peak_hours = self.get_peak_hours()
-        for report in peak_hours:
-            print(report)
+        return self._vehicle_count_per_day , self._peak_hours
 
     def __str__(self):
+        peak_days = []
+        peak_hours = []
 
-        pass
+        max_day = max(self._vehicle_count_per_day.values())
+        for day in self._vehicle_count_per_day.keys():
+            if self._vehicle_count_per_day[day] == max_day:
+                peak_days.append(day)
 
-class Gui:
-    def __init__(self):
-        """crée une instance qui permet d'encoder un nombre indéfinit de plaque
-            PRE:
-            POST:
-        """
+        max_hour = max(self._peak_hours.values())
+        for hour in self._peak_hours.keys():
+            if self._peak_hours[hour] == max_hour:
+                peak_hours.append(hour)
 
-        pass
+        return str(peak_days + peak_hours)
 
-    """Ancien fonction de gui
-    import tkinter as tk
-from tkinter import simpledialog, messagebox
+class ParkEaseGUI:
+    def __init__(self, parking):
+        # Créer la fenêtre principale
+        self.parking = parking
+        self.fenetre = tk.Tk()
+        self.fenetre.title("ParkEase")
+        self.fenetre.attributes("-fullscreen", False)
 
-def gui():
+        # Initialiser les dimensions de la fenêtre
+        self.largeur_fenetre = 1400
+        self.hauteur_fenetre = 1050
+        self.centrer_fenetre()
 
-    # Créer la fenêtre principale
-    fenetre = tk.Tk()
-    fenetre.title("ParkEase")
-    fenetre.attributes("-fullscreen", False)
+        # Ajouter les composants
+        self.creer_widgets()
 
-    # Ajouter un label
-    label = tk.Label(fenetre, text="Bienvenue dans le Parking ! \n Veuillez introduire votre plaque : ")
-    label.pack()
+        # Lancer la boucle principale
+        self.fenetre.mainloop()
 
-    # Définir la taille de la fenêtre
-    largeur_fenetre = 1400
-    hauteur_fenetre = 1050
+    def centrer_fenetre(self):
+        """Centre la fenêtre sur l'écran."""
+        largeur_ecran = self.fenetre.winfo_screenwidth()
+        hauteur_ecran = self.fenetre.winfo_screenheight()
+        x = (largeur_ecran // 2) - (self.largeur_fenetre // 2)
+        y = (hauteur_ecran // 2) - (self.hauteur_fenetre // 2)
+        self.fenetre.geometry(f"{self.largeur_fenetre}x{self.hauteur_fenetre}+{x}+{y}")
 
-    # Obtenir les dimensions de l'écran
-    largeur_ecran = fenetre.winfo_screenwidth()
-    hauteur_ecran = fenetre.winfo_screenheight()
+    def creer_widgets(self):
+        """Crée tous les widgets de l'interface."""
+        # Ajouter un label
+        label = tk.Label(
+            self.fenetre, text="Bienvenue dans le Parking ! \n Veuillez introduire votre plaque : "
+        )
+        label.pack()
 
-    # Calculer les coordonnées pour centrer la fenêtre
-    x = (largeur_ecran // 2) - (largeur_fenetre // 2)
-    y = (hauteur_ecran // 2) - (hauteur_fenetre // 2)
+        # Bouton pour le mode plein écran
+        bouton1 = tk.Button(
+            self.fenetre,
+            text="Fullscrean",
+            command=self.toggle_fullscreen
+        )
+        bouton1.place(x=20, y=20, width=150, height=75)
 
-    # Appliquer la géométrie pour centrer
-    fenetre.geometry(f"{largeur_fenetre}x{hauteur_fenetre}+{x}+{y}")
+        # ajoue d'un champ & de 2 bouton in out
+        self.champ_texte_manage = tk.Entry(self.fenetre)
+        self.champ_texte_manage.pack(pady=10)
 
-    # Ajouter un bouton
-    def on_click():
-        if fenetre.attributes("-fullscreen"):
-            fenetre.attributes("-fullscreen", False)
-        else:
-            fenetre.attributes("-fullscreen", True)
+        bouton_in = tk.Button(
+            self.fenetre, text="Entre", bg="blue", fg="white", width=10, height=2, command=self.valider_plaque
+        )
+        bouton_in.pack(pady=10)
 
-    def valider():
-        texte = champ_texte.get()
-        label_resultat.config(text=f"la plaque : {texte} a bien été ajouter")
+        bouton_out = tk.Button(
+            self.fenetre, text="Sortie", bg="red", fg="white", width=10, height=2
+        )
+        bouton_out.pack(pady=10)
 
-    # Premier bouton
-    bouton1 = tk.Button(fenetre, text="Mode plein écran", command=on_click, bg="red", fg="white")
-    bouton1.pack(pady=10)  # Placer le bouton avec un espacement vertical
-    bouton1.place(x=50, y=50, width=200, height=100)
+        """# Bouton d'impression de rapport
+        bouton_report = tk.Button(
+            self.fenetre, text="Rapport", bg="green", width=20, height=2
+        )
+        bouton_report.pack(pady=10)"""
 
-    # Champ de saisie
-    champ_texte = tk.Entry(fenetre)
-    champ_texte.pack(pady=10)
+        #ajoue d'un de l'espace
+        bouton_space = tk.Button(
+            self.fenetre, text="Espace", bg="black", fg="white", width=20, height=2, command=self.spaces
+        )
+        bouton_space.pack(pady=10)
 
-    # Bouton de validation
-    bouton = tk.Button(
-        fenetre, text="Valider", command=valider, bg="red", fg="white", width=20, height=2
-    )
-    bouton.pack(pady=10)
+        # Label pour afficher le résultat
+        self.label_resultat = tk.Label(self.fenetre, text="", fg="blue")
+        self.label_resultat.pack(pady=10)
 
-    # Label pour afficher le résultat
-    label_resultat = tk.Label(fenetre, text="", fg="blue")
-    label_resultat.pack(pady=10)
+    def toggle_fullscreen(self):
+        """Bascule entre le mode plein écran et fenêtre normale."""
+        is_fullscreen = self.fenetre.attributes("-fullscreen")
+        self.fenetre.attributes("-fullscreen", not is_fullscreen)
 
-    # Lancer la boucle principale
-    fenetre.mainloop()
+    def valider_plaque(self):
+        """Récupère le texte saisi et l'affiche dans un label."""
+        texte = self.champ_texte_manage.get()
+        self.label_resultat.config(text=f"La plaque : {texte} a bien été ajoutée")
 
-    """
+    def spaces(self):
+        print(f"{self.parking}")
