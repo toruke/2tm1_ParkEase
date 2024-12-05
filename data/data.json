@@ -1,19 +1,685 @@
 {
     "cars_in": [
         {
-            "plate": "ABC123",
+            "plate": "GUM764",
             "tickets": [
                 {
-                    "plate": "ABC123",
-                    "arrival": 1730483507.156559
+                    "plate": "GUM764",
+                    "arrival": 1733405552.0
                 },
                 {
-                    "plate": "ABC123",
-                    "arrival": 1732722996.537933
+                    "plate": "GUM764",
+                    "arrival": 1733329989.0
                 },
                 {
-                    "plate": "ABC123",
-                    "arrival": 1732723007.815207
+                    "plate": "GUM764",
+                    "arrival": 1733382938.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "EZX640",
+            "tickets": [
+                {
+                    "plate": "EZX640",
+                    "arrival": 1733316672.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "UIE170",
+            "tickets": [
+                {
+                    "plate": "UIE170",
+                    "arrival": 1732944511.0
+                },
+                {
+                    "plate": "UIE170",
+                    "arrival": 1732876311.0
+                },
+                {
+                    "plate": "UIE170",
+                    "arrival": 1732908500.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "JYE274",
+            "tickets": [
+                {
+                    "plate": "JYE274",
+                    "arrival": 1732835532.0
+                },
+                {
+                    "plate": "JYE274",
+                    "arrival": 1732772615.0
+                },
+                {
+                    "plate": "JYE274",
+                    "arrival": 1733319633.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "MDI110",
+            "tickets": [
+                {
+                    "plate": "MDI110",
+                    "arrival": 1733001921.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "QND762",
+            "tickets": [
+                {
+                    "plate": "QND762",
+                    "arrival": 1732859347.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "JWQ165",
+            "tickets": [
+                {
+                    "plate": "JWQ165",
+                    "arrival": 1732763274.0
+                },
+                {
+                    "plate": "JWQ165",
+                    "arrival": 1733281104.0
+                },
+                {
+                    "plate": "JWQ165",
+                    "arrival": 1733029551.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "CYT510",
+            "tickets": [
+                {
+                    "plate": "CYT510",
+                    "arrival": 1732832745.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "SYI167",
+            "tickets": [
+                {
+                    "plate": "SYI167",
+                    "arrival": 1732893051.0
+                },
+                {
+                    "plate": "SYI167",
+                    "arrival": 1732849577.0
+                },
+                {
+                    "plate": "SYI167",
+                    "arrival": 1733056283.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "UHN834",
+            "tickets": [
+                {
+                    "plate": "UHN834",
+                    "arrival": 1733138332.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "GMG418",
+            "tickets": [
+                {
+                    "plate": "GMG418",
+                    "arrival": 1732950150.0
+                },
+                {
+                    "plate": "GMG418",
+                    "arrival": 1733252995.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "JFO828",
+            "tickets": [
+                {
+                    "plate": "JFO828",
+                    "arrival": 1733409384.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "ATU709",
+            "tickets": [
+                {
+                    "plate": "ATU709",
+                    "arrival": 1733290152.0
+                },
+                {
+                    "plate": "ATU709",
+                    "arrival": 1733377474.0
+                },
+                {
+                    "plate": "ATU709",
+                    "arrival": 1732770005.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "XQJ526",
+            "tickets": [
+                {
+                    "plate": "XQJ526",
+                    "arrival": 1732771717.0
+                },
+                {
+                    "plate": "XQJ526",
+                    "arrival": 1733161690.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "IRP685",
+            "tickets": [
+                {
+                    "plate": "IRP685",
+                    "arrival": 1733306121.0
+                },
+                {
+                    "plate": "IRP685",
+                    "arrival": 1733158541.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "WDI962",
+            "tickets": [
+                {
+                    "plate": "WDI962",
+                    "arrival": 1733303739.0
+                },
+                {
+                    "plate": "WDI962",
+                    "arrival": 1732792819.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "SHE099",
+            "tickets": [
+                {
+                    "plate": "SHE099",
+                    "arrival": 1732942935.0
+                },
+                {
+                    "plate": "SHE099",
+                    "arrival": 1733134290.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "KCW950",
+            "tickets": [
+                {
+                    "plate": "KCW950",
+                    "arrival": 1733227226.0
+                },
+                {
+                    "plate": "KCW950",
+                    "arrival": 1733195550.0
+                },
+                {
+                    "plate": "KCW950",
+                    "arrival": 1733044149.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "RHU169",
+            "tickets": [
+                {
+                    "plate": "RHU169",
+                    "arrival": 1733325848.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "QTC736",
+            "tickets": [
+                {
+                    "plate": "QTC736",
+                    "arrival": 1732893543.0
+                },
+                {
+                    "plate": "QTC736",
+                    "arrival": 1733024621.0
+                },
+                {
+                    "plate": "QTC736",
+                    "arrival": 1732882431.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "DDA689",
+            "tickets": [
+                {
+                    "plate": "DDA689",
+                    "arrival": 1733378587.0
+                },
+                {
+                    "plate": "DDA689",
+                    "arrival": 1732983450.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "RJL214",
+            "tickets": [
+                {
+                    "plate": "RJL214",
+                    "arrival": 1733214662.0
+                },
+                {
+                    "plate": "RJL214",
+                    "arrival": 1733292383.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "OQD613",
+            "tickets": [
+                {
+                    "plate": "OQD613",
+                    "arrival": 1732877831.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "ZBJ504",
+            "tickets": [
+                {
+                    "plate": "ZBJ504",
+                    "arrival": 1732758601.0
+                },
+                {
+                    "plate": "ZBJ504",
+                    "arrival": 1733184176.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "QGJ995",
+            "tickets": [
+                {
+                    "plate": "QGJ995",
+                    "arrival": 1733337420.0
+                },
+                {
+                    "plate": "QGJ995",
+                    "arrival": 1733009560.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "ZPJ768",
+            "tickets": [
+                {
+                    "plate": "ZPJ768",
+                    "arrival": 1733280749.0
+                },
+                {
+                    "plate": "ZPJ768",
+                    "arrival": 1732877198.0
+                },
+                {
+                    "plate": "ZPJ768",
+                    "arrival": 1733104158.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "LGS917",
+            "tickets": [
+                {
+                    "plate": "LGS917",
+                    "arrival": 1733405712.0
+                },
+                {
+                    "plate": "LGS917",
+                    "arrival": 1732769270.0
+                },
+                {
+                    "plate": "LGS917",
+                    "arrival": 1733053946.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "MWA020",
+            "tickets": [
+                {
+                    "plate": "MWA020",
+                    "arrival": 1732825146.0
+                },
+                {
+                    "plate": "MWA020",
+                    "arrival": 1733065935.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "ZRZ826",
+            "tickets": [
+                {
+                    "plate": "ZRZ826",
+                    "arrival": 1733248247.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "WEJ189",
+            "tickets": [
+                {
+                    "plate": "WEJ189",
+                    "arrival": 1733383930.0
+                },
+                {
+                    "plate": "WEJ189",
+                    "arrival": 1732838418.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "DUY080",
+            "tickets": [
+                {
+                    "plate": "DUY080",
+                    "arrival": 1733282929.0
+                },
+                {
+                    "plate": "DUY080",
+                    "arrival": 1733244292.0
+                },
+                {
+                    "plate": "DUY080",
+                    "arrival": 1733291183.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "LKT350",
+            "tickets": [
+                {
+                    "plate": "LKT350",
+                    "arrival": 1732996874.0
+                },
+                {
+                    "plate": "LKT350",
+                    "arrival": 1733239038.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "AFQ549",
+            "tickets": [
+                {
+                    "plate": "AFQ549",
+                    "arrival": 1733379320.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "BTM271",
+            "tickets": [
+                {
+                    "plate": "BTM271",
+                    "arrival": 1733325886.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "ZEX810",
+            "tickets": [
+                {
+                    "plate": "ZEX810",
+                    "arrival": 1732983040.0
+                },
+                {
+                    "plate": "ZEX810",
+                    "arrival": 1733084723.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "BFL474",
+            "tickets": [
+                {
+                    "plate": "BFL474",
+                    "arrival": 1733003547.0
+                },
+                {
+                    "plate": "BFL474",
+                    "arrival": 1732905202.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "GAV773",
+            "tickets": [
+                {
+                    "plate": "GAV773",
+                    "arrival": 1733248376.0
+                },
+                {
+                    "plate": "GAV773",
+                    "arrival": 1732859305.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "MNH973",
+            "tickets": [
+                {
+                    "plate": "MNH973",
+                    "arrival": 1733088794.0
+                },
+                {
+                    "plate": "MNH973",
+                    "arrival": 1732759345.0
+                },
+                {
+                    "plate": "MNH973",
+                    "arrival": 1732987817.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "VIK054",
+            "tickets": [
+                {
+                    "plate": "VIK054",
+                    "arrival": 1733335589.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "RSC049",
+            "tickets": [
+                {
+                    "plate": "RSC049",
+                    "arrival": 1733362654.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "RVV805",
+            "tickets": [
+                {
+                    "plate": "RVV805",
+                    "arrival": 1733018135.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "KNF798",
+            "tickets": [
+                {
+                    "plate": "KNF798",
+                    "arrival": 1733386835.0
+                },
+                {
+                    "plate": "KNF798",
+                    "arrival": 1733344304.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "ZXU873",
+            "tickets": [
+                {
+                    "plate": "ZXU873",
+                    "arrival": 1733362939.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "UBM454",
+            "tickets": [
+                {
+                    "plate": "UBM454",
+                    "arrival": 1732878432.0
+                },
+                {
+                    "plate": "UBM454",
+                    "arrival": 1732982703.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "CHB315",
+            "tickets": [
+                {
+                    "plate": "CHB315",
+                    "arrival": 1733285090.0
+                },
+                {
+                    "plate": "CHB315",
+                    "arrival": 1732916671.0
+                },
+                {
+                    "plate": "CHB315",
+                    "arrival": 1733050533.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "CIJ614",
+            "tickets": [
+                {
+                    "plate": "CIJ614",
+                    "arrival": 1733044781.0
+                },
+                {
+                    "plate": "CIJ614",
+                    "arrival": 1733114473.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "ZQO915",
+            "tickets": [
+                {
+                    "plate": "ZQO915",
+                    "arrival": 1733063749.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "WFR947",
+            "tickets": [
+                {
+                    "plate": "WFR947",
+                    "arrival": 1732932291.0
+                },
+                {
+                    "plate": "WFR947",
+                    "arrival": 1732895683.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "NDE391",
+            "tickets": [
+                {
+                    "plate": "NDE391",
+                    "arrival": 1733195632.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "MKR877",
+            "tickets": [
+                {
+                    "plate": "MKR877",
+                    "arrival": 1733270067.0
+                },
+                {
+                    "plate": "MKR877",
+                    "arrival": 1733131869.0
                 }
             ],
             "sub": null
@@ -21,97 +687,582 @@
     ],
     "cars_out": [
         {
-            "plate": "DKS028",
+            "plate": "LPZ293",
             "tickets": [
                 {
-                    "plate": "DKS028",
-                    "arrival": 1730483494.072492
+                    "plate": "LPZ293",
+                    "arrival": 1733003887.0
                 }
             ],
             "sub": null
         },
         {
-            "plate": "aze000",
+            "plate": "URC687",
             "tickets": [
                 {
-                    "plate": "aze000",
-                    "arrival": 1732739379.809412
-                }
-            ],
-            "sub": {
-                "plate": "aze000",
-                "length": 3,
-                "start": 1732739497.679869
-            }
-        },
-        {
-            "plate": "tot111",
-            "tickets": [
-                {
-                    "plate": "tot111",
-                    "arrival": 1732864799.503722
-                }
-            ],
-            "sub": {
-                "plate": "tot111",
-                "length": 3,
-                "start": 1732102708.444725
-            }
-        },
-        {
-            "plate": "subcar2",
-            "tickets": [
-                {
-                    "plate": "subcar2",
-                    "arrival": 1732868630.677959
-                }
-            ],
-            "sub": {
-                "plate": "subcar2",
-                "length": 1,
-                "start": 1732868599.428059
-            }
-        },
-        {
-            "plate": "arno",
-            "tickets": [
-                {
-                    "plate": "arno",
-                    "arrival": 1732872241.26405
+                    "plate": "URC687",
+                    "arrival": 1732755747.0
                 },
                 {
-                    "plate": "arno",
-                    "arrival": 1732872312.956641
+                    "plate": "URC687",
+                    "arrival": 1733259260.0
                 }
             ],
-            "sub": {
-                "plate": "arno",
-                "length": 2,
-                "start": 1732872290.474725
-            }
+            "sub": null
         },
         {
-            "plate": "test1",
+            "plate": "OLM124",
             "tickets": [
                 {
-                    "plate": "test1",
-                    "arrival": 1733050407.979487
+                    "plate": "OLM124",
+                    "arrival": 1732871275.0
+                },
+                {
+                    "plate": "OLM124",
+                    "arrival": 1733114655.0
                 }
             ],
             "sub": {
-                "plate": "test1",
-                "length": 8,
-                "start": 1733050440.321844
+                "plate": "OLM124",
+                "length": 10,
+                "start": 1733232195.0
             }
         },
         {
-            "plate": "test2",
+            "plate": "WCL074",
+            "tickets": [
+                {
+                    "plate": "WCL074",
+                    "arrival": 1733109643.0
+                }
+            ],
+            "sub": {
+                "plate": "WCL074",
+                "length": 10,
+                "start": 1733004164.0
+            }
+        },
+        {
+            "plate": "RUE136",
+            "tickets": [
+                {
+                    "plate": "RUE136",
+                    "arrival": 1733030810.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "KOE701",
             "tickets": [],
             "sub": {
-                "plate": "test2",
-                "length": 3,
-                "start": 1733051507.289581
+                "plate": "KOE701",
+                "length": 10,
+                "start": 1732971943.0
             }
+        },
+        {
+            "plate": "CKK784",
+            "tickets": [
+                {
+                    "plate": "CKK784",
+                    "arrival": 1733331161.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "OBA673",
+            "tickets": [],
+            "sub": null
+        },
+        {
+            "plate": "AYO173",
+            "tickets": [
+                {
+                    "plate": "AYO173",
+                    "arrival": 1733049866.0
+                }
+            ],
+            "sub": {
+                "plate": "AYO173",
+                "length": 5,
+                "start": 1733355451.0
+            }
+        },
+        {
+            "plate": "JDD860",
+            "tickets": [
+                {
+                    "plate": "JDD860",
+                    "arrival": 1733385983.0
+                },
+                {
+                    "plate": "JDD860",
+                    "arrival": 1732821459.0
+                }
+            ],
+            "sub": {
+                "plate": "JDD860",
+                "length": 8,
+                "start": 1732942042.0
+            }
+        },
+        {
+            "plate": "PRE017",
+            "tickets": [
+                {
+                    "plate": "PRE017",
+                    "arrival": 1733162493.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "ZXG969",
+            "tickets": [
+                {
+                    "plate": "ZXG969",
+                    "arrival": 1732849693.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "VYO035",
+            "tickets": [
+                {
+                    "plate": "VYO035",
+                    "arrival": 1733184624.0
+                },
+                {
+                    "plate": "VYO035",
+                    "arrival": 1732982228.0
+                }
+            ],
+            "sub": {
+                "plate": "VYO035",
+                "length": 5,
+                "start": 1733120413.0
+            }
+        },
+        {
+            "plate": "BHJ248",
+            "tickets": [
+                {
+                    "plate": "BHJ248",
+                    "arrival": 1733348355.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "BSG439",
+            "tickets": [
+                {
+                    "plate": "BSG439",
+                    "arrival": 1733273621.0
+                }
+            ],
+            "sub": {
+                "plate": "BSG439",
+                "length": 12,
+                "start": 1733164392.0
+            }
+        },
+        {
+            "plate": "LZY525",
+            "tickets": [],
+            "sub": null
+        },
+        {
+            "plate": "NMB755",
+            "tickets": [
+                {
+                    "plate": "NMB755",
+                    "arrival": 1732809954.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "WGP318",
+            "tickets": [
+                {
+                    "plate": "WGP318",
+                    "arrival": 1733072476.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "GZC701",
+            "tickets": [],
+            "sub": {
+                "plate": "GZC701",
+                "length": 3,
+                "start": 1733197735.0
+            }
+        },
+        {
+            "plate": "LHK935",
+            "tickets": [
+                {
+                    "plate": "LHK935",
+                    "arrival": 1733364891.0
+                },
+                {
+                    "plate": "LHK935",
+                    "arrival": 1732933015.0
+                }
+            ],
+            "sub": {
+                "plate": "LHK935",
+                "length": 1,
+                "start": 1733018926.0
+            }
+        },
+        {
+            "plate": "RNQ810",
+            "tickets": [
+                {
+                    "plate": "RNQ810",
+                    "arrival": 1733411848.0
+                }
+            ],
+            "sub": {
+                "plate": "RNQ810",
+                "length": 3,
+                "start": 1733085200.0
+            }
+        },
+        {
+            "plate": "RFT814",
+            "tickets": [],
+            "sub": {
+                "plate": "RFT814",
+                "length": 11,
+                "start": 1732885442.0
+            }
+        },
+        {
+            "plate": "LLI380",
+            "tickets": [],
+            "sub": null
+        },
+        {
+            "plate": "ZIN316",
+            "tickets": [
+                {
+                    "plate": "ZIN316",
+                    "arrival": 1732780658.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "TLD624",
+            "tickets": [
+                {
+                    "plate": "TLD624",
+                    "arrival": 1733146477.0
+                },
+                {
+                    "plate": "TLD624",
+                    "arrival": 1733214066.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "RVD495",
+            "tickets": [],
+            "sub": {
+                "plate": "RVD495",
+                "length": 2,
+                "start": 1732866069.0
+            }
+        },
+        {
+            "plate": "FTF429",
+            "tickets": [
+                {
+                    "plate": "FTF429",
+                    "arrival": 1732791324.0
+                },
+                {
+                    "plate": "FTF429",
+                    "arrival": 1732783826.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "UJU983",
+            "tickets": [
+                {
+                    "plate": "UJU983",
+                    "arrival": 1732778056.0
+                },
+                {
+                    "plate": "UJU983",
+                    "arrival": 1732876813.0
+                }
+            ],
+            "sub": {
+                "plate": "UJU983",
+                "length": 10,
+                "start": 1732959128.0
+            }
+        },
+        {
+            "plate": "EZK212",
+            "tickets": [
+                {
+                    "plate": "EZK212",
+                    "arrival": 1733392007.0
+                },
+                {
+                    "plate": "EZK212",
+                    "arrival": 1732782185.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "GWB639",
+            "tickets": [
+                {
+                    "plate": "GWB639",
+                    "arrival": 1732964432.0
+                },
+                {
+                    "plate": "GWB639",
+                    "arrival": 1732896145.0
+                }
+            ],
+            "sub": {
+                "plate": "GWB639",
+                "length": 7,
+                "start": 1732770702.0
+            }
+        },
+        {
+            "plate": "HUH658",
+            "tickets": [
+                {
+                    "plate": "HUH658",
+                    "arrival": 1732748939.0
+                },
+                {
+                    "plate": "HUH658",
+                    "arrival": 1733015544.0
+                }
+            ],
+            "sub": {
+                "plate": "HUH658",
+                "length": 11,
+                "start": 1733317351.0
+            }
+        },
+        {
+            "plate": "IZI635",
+            "tickets": [
+                {
+                    "plate": "IZI635",
+                    "arrival": 1733339654.0
+                }
+            ],
+            "sub": {
+                "plate": "IZI635",
+                "length": 8,
+                "start": 1733109347.0
+            }
+        },
+        {
+            "plate": "AOO349",
+            "tickets": [
+                {
+                    "plate": "AOO349",
+                    "arrival": 1733089177.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "EJV377",
+            "tickets": [
+                {
+                    "plate": "EJV377",
+                    "arrival": 1732925070.0
+                },
+                {
+                    "plate": "EJV377",
+                    "arrival": 1733166302.0
+                }
+            ],
+            "sub": {
+                "plate": "EJV377",
+                "length": 1,
+                "start": 1733024784.0
+            }
+        },
+        {
+            "plate": "XYH105",
+            "tickets": [
+                {
+                    "plate": "XYH105",
+                    "arrival": 1733267421.0
+                },
+                {
+                    "plate": "XYH105",
+                    "arrival": 1732868886.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "YIT829",
+            "tickets": [],
+            "sub": null
+        },
+        {
+            "plate": "VIN655",
+            "tickets": [
+                {
+                    "plate": "VIN655",
+                    "arrival": 1733110193.0
+                },
+                {
+                    "plate": "VIN655",
+                    "arrival": 1733358840.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "OLO840",
+            "tickets": [],
+            "sub": null
+        },
+        {
+            "plate": "WBQ456",
+            "tickets": [
+                {
+                    "plate": "WBQ456",
+                    "arrival": 1733301476.0
+                }
+            ],
+            "sub": {
+                "plate": "WBQ456",
+                "length": 5,
+                "start": 1733184828.0
+            }
+        },
+        {
+            "plate": "JQM102",
+            "tickets": [
+                {
+                    "plate": "JQM102",
+                    "arrival": 1733300361.0
+                }
+            ],
+            "sub": {
+                "plate": "JQM102",
+                "length": 3,
+                "start": 1733015721.0
+            }
+        },
+        {
+            "plate": "ZOD531",
+            "tickets": [],
+            "sub": null
+        },
+        {
+            "plate": "HRO068",
+            "tickets": [],
+            "sub": null
+        },
+        {
+            "plate": "DEI877",
+            "tickets": [],
+            "sub": {
+                "plate": "DEI877",
+                "length": 10,
+                "start": 1732915042.0
+            }
+        },
+        {
+            "plate": "QAH369",
+            "tickets": [],
+            "sub": null
+        },
+        {
+            "plate": "NWG169",
+            "tickets": [
+                {
+                    "plate": "NWG169",
+                    "arrival": 1733162842.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "YKQ877",
+            "tickets": [
+                {
+                    "plate": "YKQ877",
+                    "arrival": 1732985909.0
+                },
+                {
+                    "plate": "YKQ877",
+                    "arrival": 1733354789.0
+                }
+            ],
+            "sub": null
+        },
+        {
+            "plate": "UFS930",
+            "tickets": [
+                {
+                    "plate": "UFS930",
+                    "arrival": 1732857352.0
+                }
+            ],
+            "sub": {
+                "plate": "UFS930",
+                "length": 10,
+                "start": 1733085489.0
+            }
+        },
+        {
+            "plate": "ZZA824",
+            "tickets": [
+                {
+                    "plate": "ZZA824",
+                    "arrival": 1733180816.0
+                }
+            ],
+            "sub": {
+                "plate": "ZZA824",
+                "length": 2,
+                "start": 1733385118.0
+            }
+        },
+        {
+            "plate": "XKF488",
+            "tickets": [],
+            "sub": null
+        },
+        {
+            "plate": "AOU429",
+            "tickets": [
+                {
+                    "plate": "AOU429",
+                    "arrival": 1733070482.0
+                }
+            ],
+            "sub": null
         }
     ],
     "spaces": 192
