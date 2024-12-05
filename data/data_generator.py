@@ -5,6 +5,10 @@ import json
 CARS_IN = 50
 CARS_OUT = 50
 
+# Set date range for the week (28 November to 5 december)
+start_date = datetime(2024, 11, 28)
+end_date = datetime(2024, 12, 5)
+
 # Helper functions to generate random timestamps and plates
 def random_plate():
     letters = ''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZ', k=3))
@@ -15,10 +19,6 @@ def random_timestamp(start_date, end_date):
     delta = end_date - start_date
     random_seconds = random.randint(0, int(delta.total_seconds()))
     return (start_date + timedelta(seconds=random_seconds)).timestamp()
-
-# Set date range for the week (28 November to today)
-start_date = datetime(2024, 11, 28)
-end_date = datetime.now()
 
 # Generate 100 car entries
 cars_in = []
