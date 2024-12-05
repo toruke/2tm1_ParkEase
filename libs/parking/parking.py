@@ -451,7 +451,13 @@ class Report:
             if self._peak_hours[hour] == max_hour:
                 peak_hours.append(hour)
 
-        return f"The busiest days for the parking lot are: {peak_days}.\n The peak hours of the parking lot are: {peak_hours}."
+        peak_days = map(lambda d: d.strftime('%d/%m/%Y'), peak_days)
+        peak_days = "\n".join(peak_days)
+
+        peak_hours = map(lambda h: f"{h}h", peak_hours)
+        peak_hours = "\n".join(peak_hours)
+
+        return f"The busiest days for the parking lot are:\n{peak_days}\nThe peak hours of the parking lot are:\n{peak_hours}"
 
 
 

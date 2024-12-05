@@ -98,7 +98,7 @@ def main(args):
     if args.report:
         report = Report(parkease)
         report.add_data()
-        print(report.get_daily_report())
+        print(report)
 
     json_writer(parkease)
 
