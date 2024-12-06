@@ -37,14 +37,14 @@ def my_input(query, choices=None, numeric=False, my_min=None, my_max=None):
     return int(response) if numeric else response
 
 
-def main(args):
+def main(my_args):
     if json_reader():
         parkease = Parking().from_dict(json_reader())
     else:
         parkease = Parking()
 
-    if args.management:
-        state, plate = args.management
+    if my_args.management:
+        state, plate = my_args.management
         try:
             if state == 'in':
                 parkease.add_car(plate)
@@ -56,8 +56,8 @@ def main(args):
         except Exception as e:
             print(e)
 
-    if args.subscription:
-        plate = args.subscription
+    if my_args.subscription:
+        plate = my_args.subscription
         try:
             car = list(filter(lambda c: c.plate == plate, parkease.all_cars))[0]
         except IndexError:
@@ -92,10 +92,10 @@ def main(args):
             else:
                 print("No active subscription.")
 
-    if args.spaces:
+    if my_args.spaces:
         print(parkease)
 
-    if args.report:
+    if my_args.report:
         report = Report(parkease)
         report.add_data()
         print(report)
