@@ -1,4 +1,6 @@
 from ..my_datetime import *
+import tkinter as tk
+from tkinter import simpledialog, messagebox
 
 # car park rates in euros
 PRICE_PER_HOUR = 2
@@ -459,6 +461,90 @@ class Report:
 
         return f"The busiest days for the parking lot are (with {max_day} cars):\n{peak_days}\nThe peak hours of the parking lot are (with {max_hour} cars):\n{peak_hours}"
 
+class ParkEaseGUI:
+    def __init__(self, parking):
+        # Créer la fenêtre principale
+        self.parking = parking
+        self.fenetre = tk.Tk()
+        self.fenetre.title("ParkEase")
+        self.fenetre.attributes("-fullscreen", False)
 
+        # Initialiser les dimensions de la fenêtre
+        self.largeur_fenetre = 1400
+        self.hauteur_fenetre = 1050
+        self.centrer_fenetre()
 
+        # Ajouter les composants
+        self.creer_widgets()
 
+        # Lancer la boucle principale
+        self.fenetre.mainloop()
+
+    def centrer_fenetre(self):
+        """Centre la fenêtre sur l'écran."""
+        largeur_ecran = self.fenetre.winfo_screenwidth()
+        hauteur_ecran = self.fenetre.winfo_screenheight()
+        x = (largeur_ecran // 2) - (self.largeur_fenetre // 2)
+        y = (hauteur_ecran // 2) - (self.hauteur_fenetre // 2)
+        self.fenetre.geometry(f"{self.largeur_fenetre}x{self.hauteur_fenetre}+{x}+{y}")
+
+    def creer_widgets(self):
+        """Crée tous les widgets de l'interface."""
+        # Ajouter un label
+        label = tk.Label(
+            self.fenetre, text="Bienvenue dans le Parking ! \n Veuillez introduire votre plaque : "
+        )
+        label.pack()
+
+        # Bouton pour le mode plein écran
+        bouton1 = tk.Button(
+            self.fenetre,
+            text="Fullscrean",
+            command=self.toggle_fullscreen
+        )
+        bouton1.place(x=20, y=20, width=150, height=75)
+
+        # ajoue d'un champ & de 2 bouton in out
+        self.champ_texte_manage = tk.Entry(self.fenetre)
+        self.champ_texte_manage.pack(pady=10)
+
+        bouton_in = tk.Button(
+            self.fenetre, text="Entre", bg="blue", fg="white", width=10, height=2, command=self.entre_plaque
+        )
+        bouton_in.pack(pady=10)
+
+        bouton_out = tk.Button(
+            self.fenetre, text="Sortie", bg="red", fg="white", width=10, height=2
+        )
+        bouton_out.pack(pady=10)
+
+        """# Bouton d'impression de rapport
+        bouton_report = tk.Button(
+            self.fenetre, text="Rapport", bg="green", width=20, height=2
+        )
+        bouton_report.pack(pady=10)"""
+
+        #ajoue d'un de l'espace
+        bouton_space = tk.Button(
+            self.fenetre, text="Espace", bg="black", fg="white", width=20, height=2, command=self.spaces
+        )
+        bouton_space.pack(pady=10)
+
+        # Label pour afficher le résultat
+        self.label_resultat = tk.Label(self.fenetre, text="", fg="blue")
+        self.label_resultat.pack(pady=10)
+
+    def toggle_fullscreen(self):
+        """Bascule entre le mode plein écran et fenêtre normale."""
+        is_fullscreen = self.fenetre.attributes("-fullscreen")
+        self.fenetre.attributes("-fullscreen", not is_fullscreen)
+
+    def entre_plaque(self):
+        """Récupère le texte saisi et l'affiche dans un label."""
+        texte = self.champ_texte_manage.get()
+
+        self.label_resultat.config(text=f"La plaque : {texte} a bien été ajoutée")
+
+    def spaces(self):
+        """affiche la """
+        print(f"{self.parking}")

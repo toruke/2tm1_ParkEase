@@ -100,6 +100,9 @@ def main(args):
         report.add_data()
         print(report)
 
+    if args.gui:
+        ParkEaseGUI(parkease)
+
     json_writer(parkease)
 
 
@@ -122,6 +125,7 @@ if __name__ == '__main__':
     parser.add_argument('-s', '--spaces', action='store_true', help='Show how many spaces are available.')
     parser.add_argument('-sub', '--subscription', type=str, help='Requires the plate number of the car for which you want to manipulate the subscription.')
     parser.add_argument('-r', '--report', action='store_true', help='Generates a report showing the current state of the parking lot at the time the command is executed.')
+    parser.add_argument('-g', '--gui', action='store_true', help='run the graphical user interface')
     args = parser.parse_args()
 
 
