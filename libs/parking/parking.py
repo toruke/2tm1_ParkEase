@@ -1,6 +1,5 @@
 from ..my_datetime import *
 import tkinter as tk
-from tkinter import simpledialog, messagebox
 
 # car park rates in euros
 PRICE_PER_HOUR = 2
@@ -275,7 +274,7 @@ class Car:
             self._sub = Subscription(self._plate, length)
             return Payment(self).sub_price(length)
         else:
-            raise ValueError(f'This car already has a subscription that ends on {self._sub.end.strftime('%d/%m/%Y')}.')
+            raise ValueError(f'This car already has a subscription that ends on {self._sub.end.strftime("%d/%m/%Y")}.')
 
     def extend_sub(self, length):   # in months
         """ Extends the car's subscription to the specified length.
@@ -510,26 +509,26 @@ class ParkEaseGUI:
         self.champ_texte_manage.pack(pady=10)
 
         bouton_in = tk.Button(
-            self.fenetre, text="Entre", bg="blue", fg="white", width=10, height=2, command=self.entre_plaque
+            self.fenetre, text="Entre", bg="blue", fg="white", width=10, height=2, command=self.in_plate
         )
         bouton_in.pack(pady=10)
 
         bouton_out = tk.Button(
-            self.fenetre, text="Sortie", bg="red", fg="white", width=10, height=2
+            self.fenetre, text="Sortie", bg="red", fg="white", width=10, height=2, command=self.out_plate
         )
         bouton_out.pack(pady=10)
-
-        """# Bouton d'impression de rapport
-        bouton_report = tk.Button(
-            self.fenetre, text="Rapport", bg="green", width=20, height=2
-        )
-        bouton_report.pack(pady=10)"""
 
         #ajoue d'un de l'espace
         bouton_space = tk.Button(
             self.fenetre, text="Espace", bg="black", fg="white", width=20, height=2, command=self.spaces
         )
         bouton_space.pack(pady=10)
+
+        #ajoue d'un bouton
+        bouton_report = tk.Button(
+            self.fenetre, text="Rapport", bg="green", fg="white", width=20, height=2, command=self.report
+        )
+        bouton_report.pack(pady=10)
 
         # Label pour afficher le résultat
         self.label_resultat = tk.Label(self.fenetre, text="", fg="blue")
@@ -540,17 +539,22 @@ class ParkEaseGUI:
         is_fullscreen = self.fenetre.attributes("-fullscreen")
         self.fenetre.attributes("-fullscreen", not is_fullscreen)
 
-    def entre_plaque(self):
+    def in_plate(self):
         """Récupère le texte saisi et l'affiche dans un label."""
         texte = self.champ_texte_manage.get()
-
         self.label_resultat.config(text=f"La plaque : {texte} a bien été ajoutée")
+        self.parking.add_car(texte)
+
+    def out_plate(self):
+        texte = self.champ_texte_manage.get()
+        self.label_resultat.config(text=f"La plaque : {texte} a bien été supprimée")
+        self.parking.rmv_car(texte)
 
     def spaces(self):
-        """affiche la """
-        print(f"{self.parking}")
+        """affiche l'espace """
+        self.label_resultat.config(text=str(self.parking))
 
     def report(self):
         report = Report(self.parking)
         report.add_data()
-        print(report)
+        self.label_resultat.config(text=str(report))

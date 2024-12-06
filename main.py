@@ -92,26 +92,26 @@ def subscription(sub):
             print("No active subscription.")
 
 
-def main(args):
+def main(my_args):
     global parkease
     if json_reader():
         parkease = Parking().from_dict(json_reader())
 
-    if args.management:
-        management(args.management)
+    if my_args.management:
+        management(my_args.management)
 
-    if args.subscription:
-        subscription(args.subscription)
+    if my_args.subscription:
+        subscription(my_args.subscription)
 
-    if args.spaces:
+    if my_args.spaces:
         print(parkease)
 
-    if args.report:
+    if my_args.report:
         report = Report(parkease)
         report.add_data()
         print(report)
 
-    if args.gui:
+    if my_args.gui:
         ParkEaseGUI(parkease)
 
     json_writer(parkease)
