@@ -463,8 +463,9 @@ class Report:
 
 class ParkEaseGUI:
     def __init__(self, parking):
-        # Créer la fenêtre principale
         self.parking = parking
+
+        # Créer la fenêtre principale
         self.fenetre = tk.Tk()
         self.fenetre.title("ParkEase")
         self.fenetre.attributes("-fullscreen", False)
@@ -548,3 +549,8 @@ class ParkEaseGUI:
     def spaces(self):
         """affiche la """
         print(f"{self.parking}")
+
+    def report(self):
+        report = Report(self.parking)
+        report.add_data()
+        print(report)
