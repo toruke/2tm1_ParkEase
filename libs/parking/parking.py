@@ -503,7 +503,7 @@ class ParkEaseGUI:
         self.champ_texte_manage.pack(pady=10)
 
         bouton_in = tk.Button(
-            self.fenetre, text="Entre", bg="blue", fg="white", width=10, height=2, command=self.valider_plaque
+            self.fenetre, text="Entre", bg="blue", fg="white", width=10, height=2, command=self.entre_plaque
         )
         bouton_in.pack(pady=10)
 
@@ -533,10 +533,12 @@ class ParkEaseGUI:
         is_fullscreen = self.fenetre.attributes("-fullscreen")
         self.fenetre.attributes("-fullscreen", not is_fullscreen)
 
-    def valider_plaque(self):
+    def entre_plaque(self):
         """Récupère le texte saisi et l'affiche dans un label."""
         texte = self.champ_texte_manage.get()
+
         self.label_resultat.config(text=f"La plaque : {texte} a bien été ajoutée")
 
     def spaces(self):
+        """affiche la """
         print(f"{self.parking}")

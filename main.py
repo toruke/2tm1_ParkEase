@@ -95,7 +95,7 @@ def main(args):
         print(report)
 
     if args.gui:
-        print(ParkEaseGUI(parkease))
+        ParkEaseGUI(parkease)
 
     json_writer(parkease)
 
