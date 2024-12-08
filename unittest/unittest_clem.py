@@ -6,6 +6,17 @@ class TestParking(unittest.TestCase):
     def setUp(self):
         self.parking = Parking(num_of_floors=2, spaces_per_floor=10)
 
+    def test_init(self):
+        with self.assertRaises(ValueError):
+            Parking(num_of_floors=-2, spaces_per_floor=-10)
+
+    def test_all_cars_and_get_all_tickets(self):
+        self.parking.add_car('CAR1')
+        self.parking.add_car('CAR2')
+        self.parking.rmv_car('CAR1')
+        self.assertEqual(len(self.parking.all_cars), 2)
+        self.assertEqual(len(self.parking.get_all_tickets), 2)
+
     def test_av_spaces(self):
         self.assertEqual(self.parking.av_spaces(), 20, 'Test av_spaces function')
 
@@ -27,6 +38,12 @@ class TestParking(unittest.TestCase):
         self.parking.add_car(plate)
         with self.assertRaises(ValueError):
             self.parking.add_car(plate)
+
+    def test_add_car_from_cars_out(self):
+        self.parking.add_car('CAR1')
+        self.parking.rmv_car('CAR1')
+        self.parking.add_car('CAR1')
+        self.assertEqual(len(self.parking._cars_in), 1, 'Test add_car function')
 
     def test_rmv_car(self):
         plate = 'ABC123'
@@ -55,6 +72,10 @@ class TestParking(unittest.TestCase):
         self.assertEqual(parking._cars_in[0].plate, 'CARIN')
         self.assertEqual(len(parking._cars_out), 1)
         self.assertEqual(parking._cars_out[0].plate, 'CAROUT')
+
+    def test_new_car(self):
+        self.parking.new_car('CAR1')
+        self.assertEqual(len(self.parking._cars_out), 1)
 
 
 if __name__ == '__main__':
