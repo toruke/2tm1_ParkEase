@@ -21,11 +21,11 @@ class Parking:
         """Initializes a new Parking object.
 
         PRE:
-            - cars_in and cars_out are lists of Car objects or None (default: empty list).
-            - spaces is an integer specifying the total number of spaces, or None (default: calculated from num_of_floors and spaces_per_floor).
-            - num_of_floors and spaces_per_floor are positive integers.
+            - `cars_in` and `cars_out` are lists of Car objects or None (default: empty list).
+            - `spaces` is an integer specifying the total number of spaces, or None (default: calculated from `num_of_floors` and `spaces_per_floor`).
+            - `num_of_floors` and `spaces_per_floor` are positive integers.
         POST: The parking lot is initialized with the specified or default values.
-        RAISE: ValueError if num_of_floors or spaces_per_floor is not positive.
+        RAISE: ValueError if `num_of_floors` or `spaces_per_floor` is not positive.
         """
         if num_of_floors <= 0 or spaces_per_floor <= 0:
             raise ValueError('num_of_floors and spaces_per_floor must be positive integers.')
@@ -35,10 +35,20 @@ class Parking:
 
     @property
     def all_cars(self):
+        """ Return a list of all Car objects in the parking lot. (including `cars_in` and `cars_out`)
+
+        PRE: None.
+        POST: A list of all Car objects in the parking lot.
+        """
         return self._cars_in + self._cars_out
 
     @property
     def get_all_tickets(self):
+        """ Return a list of all Ticket objects in the parking lot.
+
+        PRE: None.
+        POST: A list of all Ticket objects in the parking lot.
+        """
         all_tickets = []
         for car in self._cars_in + self._cars_out:
             all_tickets += car.tickets
@@ -70,10 +80,15 @@ class Parking:
         }
 
     def add_car(self, plate):
-        """ Adds a car to the parking lot and adds a new Ticket object to the car.
+        """ If the car didn't already exist in `cars_out`, a new Car object is created and the car correspondant to the `plate` is added into `cars_in`.
+        A Ticket object is added to the specified car.
+        It also sends an alert when the parking lot is almost full. (10% capacity remains)
 
-        PRE: The plate of the car that is to be added.
-        POST: Adds the Car object to the parking lot and create a new Ticket object to the car.
+        PRE: `plate` is a string referring to a car (not) in the parking lot.
+        POST:
+            - Adds the Car object to `cars_in`
+            - Create a new Ticket object to the car.
+            - Send an alert if it remains less than 10% of the parking lot capacity.
         RAISE:
             - ParkingFull if there are no available spaces (av_spaces() returns 0).
             - ValueError if car already exists in the parking lot.
@@ -97,10 +112,13 @@ class Parking:
         self._cars_in.append(car)
 
     def rmv_car(self, plate):
-        """ Removes a car from the parking lot.
+        """ Removes a car from `cars_in` if it exists to add it in `cars_out`.
+        It also calculates the amount to be paid by the consumer and return it.
 
         PRE: The plate of the car that is to be removed.
-        POST: Removes the car from the parking lot.
+        POST:
+            - Removes the car from `cars_in` and add it to `cars_out`.
+            - Returns the amount to be paid by the consumer.
         RAISE: ValueError if a car with the corresponding plate does not exist in the parking lot.
         """
         if plate not in list(map(lambda c: c.plate, self._cars_in)):
@@ -111,6 +129,11 @@ class Parking:
         return car.last_ticket.parked_time, car.checkout(), car.sub
 
     def new_car(self, plate):
+        """ In the case a car needs to be created without being added to `cars_in`.
+
+        PRE: `plate` needs to be a string.
+        POST: Adds a new Car object to `cars_out` with the specified `plate`.
+        """
         new_car = Car(plate)
         self._cars_out.append(new_car)
         return new_car
@@ -124,6 +147,11 @@ class Parking:
         return self._spaces - len(self._cars_in)
 
     def send_alert(self):
+        """ Send an alert when the parking lot is almost full.
+
+        PRE: None.
+        POST: Print a message in the terminal.
+        """
         print(f"Alert: The car park is almost full! There are only {self.av_spaces()} spaces available.")
 
     def __str__(self):
