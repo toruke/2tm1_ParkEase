@@ -461,27 +461,44 @@ class Report:
         return f"The busiest days for the parking lot are (with {max_day} cars):\n{peak_days}\nThe peak hours of the parking lot are (with {max_hour} cars):\n{peak_hours}"
 
 class ParkEaseGUI:
-    def __init__(self, parking):
-        self.parking = parking
+    """
+    Classe responsable de l'interface graphique pour le système de gestion de parking.
 
-        # Créer la fenêtre principale
+    Attributs :
+        parking (Parking) : Instance du système de gestion de parking.
+        fenetre (tk.Tk) : Fenêtre principale de l'application.
+        largeur_fenetre (int) : Largeur de la fenêtre.
+        hauteur_fenetre (int) : Hauteur de la fenêtre.
+        champ_texte_manage (tk.Entry) : Champ de texte pour saisir une plaque.
+        label_resultat (tk.Label) : Label pour afficher les résultats ou messages.
+    """
+    def __init__(self, parking):
+        """
+        Initialise l'interface graphique avec les composants nécessaires.
+
+        PRE : Une instance de la classe Parking est disponible.
+        POST : La fenêtre principale et les widgets de l'application sont initialisés et affichés.
+
+        Args:
+            parking (Parking) : Instance du système de gestion de parking.
+        """
+        self.parking = parking
         self.fenetre = tk.Tk()
         self.fenetre.title("ParkEase")
         self.fenetre.attributes("-fullscreen", False)
-
-        # Initialiser les dimensions de la fenêtre
         self.largeur_fenetre = 1400
         self.hauteur_fenetre = 1050
         self.centrer_fenetre()
-
-        # Ajouter les composants
         self.creer_widgets()
-
-        # Lancer la boucle principale
         self.fenetre.mainloop()
 
     def centrer_fenetre(self):
-        """Centre la fenêtre sur l'écran."""
+        """
+        Centre la fenêtre principale sur l'écran.
+
+        PRE : Les dimensions de l'écran et de la fenêtre sont définies.
+        POST : La fenêtre est centrée sur l'écran.
+        """
         largeur_ecran = self.fenetre.winfo_screenwidth()
         hauteur_ecran = self.fenetre.winfo_screenheight()
         x = (largeur_ecran // 2) - (self.largeur_fenetre // 2)
@@ -489,72 +506,88 @@ class ParkEaseGUI:
         self.fenetre.geometry(f"{self.largeur_fenetre}x{self.hauteur_fenetre}+{x}+{y}")
 
     def creer_widgets(self):
-        """Crée tous les widgets de l'interface."""
-        # Ajouter un label
-        label = tk.Label(
-            self.fenetre, text="Bienvenue dans le Parking ! \n Veuillez introduire votre plaque : "
-        )
-        label.pack()
+        """
+        Crée et organise tous les widgets de l'interface utilisateur.
 
-        # Bouton pour le mode plein écran
-        bouton1 = tk.Button(
-            self.fenetre,
-            text="Fullscrean",
-            command=self.toggle_fullscreen
-        )
-        bouton1.place(x=20, y=20, width=150, height=75)
+        PRE : La fenêtre principale est initialisée.
+        POST : Les widgets (boutons, champs de texte, labels) sont créés et disposés dans la fenêtre.
+        """
+        label = tk.Label(self.fenetre, text="Bienvenue dans le Parking ! \nVeuillez introduire votre plaque : ")
+        label.grid(row=1, column=0, columnspan=2, pady=10)
 
-        # ajoue d'un champ & de 2 bouton in out
-        self.champ_texte_manage = tk.Entry(self.fenetre)
-        self.champ_texte_manage.pack(pady=10)
+        fullscreen = tk.Button(self.fenetre, text="Fullscreen", command=self.toggle_fullscreen)
+        fullscreen.grid(row=0, column=0, columnspan=2, pady=5)
 
-        bouton_in = tk.Button(
-            self.fenetre, text="Entre", bg="blue", fg="white", width=10, height=2, command=self.in_plate
-        )
-        bouton_in.pack(pady=10)
+        self.champ_texte_manage = tk.Entry(self.fenetre, width=30)
+        self.champ_texte_manage.grid(row=2, column=0, columnspan=2, pady=5)
 
-        bouton_out = tk.Button(
-            self.fenetre, text="Sortie", bg="red", fg="white", width=10, height=2, command=self.out_plate
-        )
-        bouton_out.pack(pady=10)
+        bouton_in = tk.Button(self.fenetre, text="Entre", bg="blue", fg="white", width=15, command=self.in_plate)
+        bouton_in.grid(row=3, column=0, padx=5, pady=5)
 
-        #ajoue d'un de l'espace
-        bouton_space = tk.Button(
-            self.fenetre, text="Espace", bg="black", fg="white", width=20, height=2, command=self.spaces
-        )
-        bouton_space.pack(pady=10)
+        bouton_out = tk.Button(self.fenetre, text="Sortie", bg="red", fg="white", width=15, command=self.out_plate)
+        bouton_out.grid(row=3, column=1, padx=5, pady=5)
 
-        #ajoue d'un bouton
-        bouton_report = tk.Button(
-            self.fenetre, text="Rapport", bg="green", fg="white", width=20, height=2, command=self.report
-        )
-        bouton_report.pack(pady=10)
+        bouton_space = tk.Button(self.fenetre, text="Espace", bg="black", fg="white", width=30, command=self.spaces)
+        bouton_space.grid(row=4, column=0, columnspan=2, pady=5)
 
-        # Label pour afficher le résultat
+        bouton_report = tk.Button(self.fenetre, text="Rapport", bg="green", fg="white", width=30, command=self.report)
+        bouton_report.grid(row=5, column=0, columnspan=2, pady=5)
+
         self.label_resultat = tk.Label(self.fenetre, text="", fg="blue")
-        self.label_resultat.pack(pady=10)
+        self.label_resultat.grid(row=6, column=0, columnspan=2, pady=10)
 
     def toggle_fullscreen(self):
-        """Bascule entre le mode plein écran et fenêtre normale."""
+        """
+        Bascule entre le mode plein écran et le mode fenêtre normale.
+
+        PRE : La fenêtre principale est initialisée.
+        POST : L'état plein écran est inversé.
+        """
         is_fullscreen = self.fenetre.attributes("-fullscreen")
         self.fenetre.attributes("-fullscreen", not is_fullscreen)
 
     def in_plate(self):
-        """Récupère le texte saisi et l'affiche dans un label."""
-        texte = self.champ_texte_manage.get()
-        self.label_resultat.config(text=f"La plaque : {texte} a bien été ajoutée")
-        self.parking.add_car(texte)
+        """
+        Récupère le texte saisi dans le champ de texte et ajoute la plaque au système de parking.
+        Met à jour le label pour confirmer l'ajout.
+
+        PRE : Une plaque valide est saisie dans le champ de texte.
+        POST : La plaque est ajoutée au système de parking et un message de confirmation est affiché.
+        """
+        text = self.champ_texte_manage.get()
+        self.label_resultat.config(text=f"La plaque : {text} a bien été ajoutée")
+        self.parking.add_car(text)
 
     def out_plate(self):
-        texte = self.champ_texte_manage.get()
-        self.label_resultat.config(text=f"La plaque : {texte} a bien été supprimée")
-        self.parking.rmv_car(texte)
+        """
+        Récupère le texte saisi dans le champ de texte et supprime la plaque du système de parking.
+        Met à jour le label pour confirmer la suppression.
+
+        PRE : Une plaque valide est saisie dans le champ de texte.
+        POST : La plaque est supprimée du système de parking et un message de confirmation est affiché.
+        """
+        text = self.champ_texte_manage.get()
+        self.label_resultat.config(text=f"La plaque : {text} a bien été supprimée")
+        self.parking.rmv_car(text)
 
     def spaces(self):
-        """affiche l'espace """
+        """
+        Affiche les espaces disponibles dans le système de parking.
+        Met à jour le label pour afficher cette information.
+
+        PRE : Le système de parking est initialisé.
+        POST : Les informations sur les espaces disponibles sont affichées.
+        """
         self.label_resultat.config(text=str(self.parking))
 
     def report(self):
+        """
+        Génère un rapport sur le système de parking.
+        Met à jour le label pour afficher les données du rapport.
+
+        PRE : Le système de parking est initialisé.
+        POST : Les données du rapport sont générées et affichées.
+        """
         report = Report(self.parking)
         report.add_data()
         self.label_resultat.config(text=str(report))
