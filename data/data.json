@@ -683,6 +683,24 @@
                 }
             ],
             "sub": null
+        },
+        {
+            "plate": "test01",
+            "tickets": [
+                {
+                    "plate": "test01",
+                    "arrival": 1734007865.798881
+                },
+                {
+                    "plate": "test01",
+                    "arrival": 1734007896.896307
+                },
+                {
+                    "plate": "test01",
+                    "arrival": 1734007902.604178
+                }
+            ],
+            "sub": null
         }
     ],
     "cars_out": [
@@ -1272,6 +1290,16 @@
                 "length": 6,
                 "start": 1733472919.783931
             }
+        },
+        {
+            "plate": "test_clem",
+            "tickets": [
+                {
+                    "plate": "test_clem",
+                    "arrival": 1734007541.987511
+                }
+            ],
+            "sub": null
         }
     ],
     "spaces": 192

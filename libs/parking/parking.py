@@ -555,8 +555,11 @@ class ParkEaseGUI:
         POST : La plaque est ajoutée au système de parking et un message de confirmation est affiché.
         """
         text = self.champ_texte_manage.get()
-        self.label_resultat.config(text=f"La plaque : {text} a bien été ajoutée")
-        self.parking.add_car(text)
+        try:
+            self.parking.add_car(text)
+            self.label_resultat.config(text=f"La plaque : {text} a bien été ajoutée")
+        except ValueError as e:
+            self.label_resultat.config(text=e)
 
     def out_plate(self):
         """
@@ -567,8 +570,11 @@ class ParkEaseGUI:
         POST : La plaque est supprimée du système de parking et un message de confirmation est affiché.
         """
         text = self.champ_texte_manage.get()
-        self.label_resultat.config(text=f"La plaque : {text} a bien été supprimée")
-        self.parking.rmv_car(text)
+        try:
+            self.parking.rmv_car(text)
+            self.label_resultat.config(text=f"La plaque : {text} a bien été supprimée")
+        except ValueError as e:
+            self.label_resultat.config(text=e)
 
     def spaces(self):
         """
