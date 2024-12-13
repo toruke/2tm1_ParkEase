@@ -304,18 +304,21 @@ class Car:
 
 
 class Subscription:
-    """ Monthly car park subscription.
+    """Monthly car park subscription.
 
-    !!! Note that here the datetime class is replaced by its MyDateTime subclass, which has the add_months() method.
+    Note: The `datetime` class is replaced here by its `MyDateTime` subclass,
+    which includes the `add_months()` method.
     """
+
     def __init__(self, plate, length=1, start=None):
         """Initialize a new Subscription object.
 
-            PRE:
-                - The plate of the car (must be a non-empty string).
-                - The number of months for the subscription
-                - The start of they object subscription
-            POST: a Subscribe object are initialized with the specified or default values.
+        PRE:
+            - `plate` (str): The license plate of the car. Must be a non-empty string.
+            - `length` (int): The number of months for the subscription. Defaults to 1.
+            - `start` (MyDateTime, optional): The start date of the subscription. Defaults to the current date and time.
+        POST:
+            - A `Subscription` object is initialized with the specified or default values.
         """
         self._plate = plate
         self._length = length  # in months
@@ -323,18 +326,33 @@ class Subscription:
 
     @property
     def start(self):
+        """Get the start date of the subscription.
+
+        POST:
+            - Returns the start date as a `MyDateTime` object.
+        """
         return self._start
 
     @property
     def end(self):
+        """Get the end date of the subscription.
+
+        POST:
+            - Returns the end date as a `MyDateTime` object, calculated by adding `length` months to the start date.
+        """
         return self._start.add_months(self._length)
 
     @classmethod
     def from_dict(cls, data):
-        """ Transforms a dictionary into a Subscription Object.
+        """Create a Subscription object from a dictionary.
 
-            PRE: data is a dictionary with key-value pairs.
-            POST: the dictionary object is initialized with the specified or default values.
+        PRE:
+            - `data` (dict): A dictionary containing key-value pairs for the subscription attributes:
+                - `plate` (str): The license plate.
+                - `length` (int): The duration in months.
+                - `start` (int): The start date as a UNIX timestamp.
+        POST:
+            - Returns a `Subscription` object initialized with the dictionary values.
         """
         return cls(
             data['plate'],
@@ -343,10 +361,13 @@ class Subscription:
         )
 
     def to_dict(self):
-        """ Transforms a Subscription object to a dictionary
+        """Convert the Subscription object to a dictionary.
 
-            PRE: None.
-            POST: The dictionary representation of the Subscription object.
+        POST:
+            - Returns a dictionary representation of the Subscription object with the following keys:
+                - `plate`: The license plate.
+                - `length`: The duration in months.
+                - `start`: The start date as a UNIX timestamp.
         """
         return {
             "plate": self._plate,
@@ -355,34 +376,38 @@ class Subscription:
         }
 
     def is_active(self):
-        """ Check if the Subscription is active.
+        """Check if the subscription is currently active.
 
-            PRE: None.
-            POST: return true false if the Subscription is active.
+        POST:
+            - Returns `True` if the current date and time are before the subscription's end date, otherwise `False`.
         """
         return datetime.now() < self.end
 
     def was_active(self, date):
-        """ Check if the Subscription was active at the specified date.
+        """Check if the subscription was active at a specific date.
 
-            PRE: date is a datetime.
-            POST: return true if the Subscription was active at the specified date.
+        PRE:
+            - `date` (datetime): The date to check.
+        POST:
+            - Returns `True` if the subscription was active at the specified date, otherwise `False`.
         """
-        return date < self.end
+        return self._start <= date < self.end
 
-    def extend(self, length):   # in months
-        """ Increase the time of the subscription.
+    def extend(self, length):
+        """Extend the duration of the subscription.
 
-            PRE: length is an int
-            POST: add time to the property length
+        PRE:
+            - `length` (int): The number of months to add to the subscription's duration.
+        POST:
+            - Increases the subscription's length by the specified number of months.
         """
         self._length += length
 
     def __str__(self):
-        """ Returns a string representation of the Subscription object.
+        """Return a string representation of the Subscription object.
 
-            PRE: None.
-            POST: The string representation of the Subscription object
+        POST:
+            - Returns a formatted string containing the license plate, start date, and end date of the subscription.
         """
         return f"Plate : {self._plate}\nStart : {self._start.strftime('%d/%m/%Y à %H:%M:%S')}\nEnd : {self.end.strftime('%d/%m/%Y à %H:%M:%S')}"
 
