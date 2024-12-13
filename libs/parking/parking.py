@@ -507,34 +507,46 @@ class ParkEaseGUI:
 
     def creer_widgets(self):
         """
-        Crée et organise tous les widgets de l'interface utilisateur.
+        Crée et organise tous les widgets de l'interface utilisateur avec une mise en page mise à jour.
 
         PRE : La fenêtre principale est initialisée.
-        POST : Les widgets (boutons, champs de texte, labels) sont créés et disposés dans la fenêtre.
+        POST : Les widgets sont réorganisés avec les boutons à gauche et les résultats à droite.
         """
-        label = tk.Label(self.fenetre, text="Bienvenue dans le Parking ! \nVeuillez introduire votre plaque : ")
-        label.grid(row=1, column=0, columnspan=2, pady=10)
+        # Cadre gauche pour les boutons et le champ texte
+        frame_gauche = tk.Frame(self.fenetre)
+        frame_gauche.grid(row=0, column=0, padx=10, pady=10, sticky="n")
 
-        fullscreen = tk.Button(self.fenetre, text="Fullscreen", command=self.toggle_fullscreen)
-        fullscreen.grid(row=0, column=0, columnspan=2, pady=5)
+        label = tk.Label(frame_gauche, text="Bienvenue dans le Parking ! \nVeuillez introduire votre plaque : ")
+        label.pack(pady=10)
 
-        self.champ_texte_manage = tk.Entry(self.fenetre, width=30)
-        self.champ_texte_manage.grid(row=2, column=0, columnspan=2, pady=5)
+        fullscreen = tk.Button(frame_gauche, text="Fullscreen", command=self.toggle_fullscreen)
+        fullscreen.pack(pady=5)
 
-        bouton_in = tk.Button(self.fenetre, text="Entre", bg="blue", fg="white", width=15, command=self.in_plate)
-        bouton_in.grid(row=3, column=0, padx=5, pady=5)
+        self.champ_texte_manage = tk.Entry(frame_gauche, width=30)
+        self.champ_texte_manage.pack(pady=5)
 
-        bouton_out = tk.Button(self.fenetre, text="Sortie", bg="red", fg="white", width=15, command=self.out_plate)
-        bouton_out.grid(row=3, column=1, padx=5, pady=5)
+        bouton_in = tk.Button(frame_gauche, text="Entre", bg="blue", fg="white", width=20, height=2,
+                              command=self.in_plate)
+        bouton_in.pack(pady=5)
 
-        bouton_space = tk.Button(self.fenetre, text="Espace", bg="black", fg="white", width=30, command=self.spaces)
-        bouton_space.grid(row=4, column=0, columnspan=2, pady=5)
+        bouton_out = tk.Button(frame_gauche, text="Sortie", bg="red", fg="white", width=20, height=2,
+                               command=self.out_plate)
+        bouton_out.pack(pady=5)
 
-        bouton_report = tk.Button(self.fenetre, text="Rapport", bg="green", fg="white", width=30, command=self.report)
-        bouton_report.grid(row=5, column=0, columnspan=2, pady=5)
+        bouton_space = tk.Button(frame_gauche, text="Espace", bg="black", fg="white", width=25, height=2,
+                                 command=self.spaces)
+        bouton_space.pack(pady=5)
 
-        self.label_resultat = tk.Label(self.fenetre, text="", fg="blue")
-        self.label_resultat.grid(row=6, column=0, columnspan=2, pady=10)
+        bouton_report = tk.Button(frame_gauche, text="Rapport", bg="green", fg="white", width=25, height=2,
+                                  command=self.report)
+        bouton_report.pack(pady=5)
+
+        # Cadre droit pour les résultats
+        frame_droit = tk.Frame(self.fenetre)
+        frame_droit.grid(row=0, column=1, padx=10, pady=10, sticky="n")
+
+        self.label_resultat = tk.Label(frame_droit, text="", fg="blue", justify="left", anchor="n", wraplength=300)
+        self.label_resultat.pack(pady=10)
 
     def toggle_fullscreen(self):
         """
