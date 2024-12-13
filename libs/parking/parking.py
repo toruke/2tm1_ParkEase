@@ -418,7 +418,8 @@ class Payment:
     def __init__(self, car):
         self._car = car
 
-    def sub_price(self, length):
+    @staticmethod
+    def sub_price(length):
         return length * PRICE_PER_MONTH
 
     def amount_due(self):
