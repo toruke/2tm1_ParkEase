@@ -487,7 +487,3 @@ class Report:
         peak_hours = "\n".join(peak_hours)
 
         return f"The busiest days for the parking lot are (with {max_day} cars):\n{peak_days}\nThe peak hours of the parking lot are (with {max_hour} cars):\n{peak_hours}"
-
-
-
-
